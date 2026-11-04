@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body style="margin: 3em 6em 0em 6em;">
+    <div id="album-details-top">
+        <div id="album-details">
+            <div>
+                <img src="<%=album.cover_img%>" alt="">
+            </div>
+            <div>
+                <h1>
+                    <%=album.name%>
+                </h1>
+                <p id="album-info">
+                    Album &#8226; <%= new Date(album.release_date).toISOString().slice(0, 10) %> &#8226; <%=
+                            songs.length %> tracks
+                </p>
+                <p>
+                    <%= album.artist_id.name %>
+                </p>
+            </div>
+        </div>
+
+        <div style="width: 40%;">
+            <div style="display: flex;gap: 3em;justify-content: center;">
+                <div style="text-align: center;">
+                    <h2>0</h2>
+                    <p>total reviews</p>
+                </div>
+                <div style="text-align: center;">
+                    <h2>0/5</h2>
+                    <p>Average rating</p>
+                </div>
+                <div style="text-align: center;">
+                    <h2>0/5</h2>
+                    <p>your rating</p>
+                </div>
+
+            </div>
+            <button id="reviewButton">Write Review</button>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

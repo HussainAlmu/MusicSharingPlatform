@@ -3,7 +3,8 @@ const express = require("express");
 const Album = require("../models/Album.js");
 const Genre = require("../models/Genre.js");
 const Artist = require("../models/Artist.js");
-const Song = require("../models/Song.js")
+const Song = require("../models/Song.js");
+const { render } = require("ejs");
 
 
 router.get('/', async (req, res) => {
@@ -38,11 +39,14 @@ router.post('/create', async (req, res) => {
 
     }
     await newAlbum.save();
-
-
-
     res.redirect('/album');
 
 });
+
+router.get("/:id",async (req, res) => {
+    const album = await Album.findById(req.params.id).populate('songs').populate("artist_id");
+    let songs = album.songs
+    res.render('album/album-det.ejs', {album,songs})
+})
 
 module.exports = router;

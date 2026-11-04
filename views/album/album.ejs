@@ -9,11 +9,13 @@
 </head>
 <body>
     <% for (let oneAlbum of album) { %>
+        <a href="/album/<%= oneAlbum._id %>">
         <div class="album-card">
             <img src="<%= oneAlbum.cover_img %>" alt="<%= oneAlbum.name %>">
             <h2><%= oneAlbum.name %></h2>
             <p><%= oneAlbum.artist_id.name %></p>
         </div>
+        </a>
     <% } %>
 </body>
 </html>
