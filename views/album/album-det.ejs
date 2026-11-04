@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
-<body style="margin: 3em 6em 0em 6em;">
+<body>
     <div id="album-details-top">
         <div id="album-details">
             <div>
@@ -48,6 +50,43 @@
 
         </div>
     </div>
+    <div style="padding: 2em 6em 0em 6em;">
+        <div style="width: 60%; display: flex; justify-content: space-between;">
+            <h3>track list</h3>
+            <h3>duration</h3>
+        </div>
+        <div
+            style="display: flex; width: 60%; justify-content: space-between;background-color: #1c1b20 ; padding: 0.5em 0em 0.5em 0em; border-radius: 8px;flex-direction: column;">
+            <% for (let oneSongs of songs) { %>
+                <div style="display: flex; justify-content: space-between; padding: 0.5em 0em 0.5em 0em;">
+
+                    <div style="display: flex; gap: 1em; flex-direction: row; align-items: center;">
+                        <div style="padding-left: 2em;">
+                            <p style="color: #ABA5AD;">
+                                <%=oneSongs.track_number%>
+                            </p>
+                        </div>
+                        <div>
+                            <p style="font-size: 1em; ">
+                                <%=oneSongs.song_name %>
+                            </p>
+                            <p style="font-size: 0.9em; color: #ABA5AD; line-height: 0;">
+                                <%= album.artist_id.name %>
+                            </p>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; flex-direction: row; gap: 5em;padding-right: 2em;">
+                        <p style="color: #ABA5AD;">
+                            <%=oneSongs.duration%>
+                        </p>
+                        <i style="font-size:24px" class="fa">&#xf144;</i>
+                    </div>
+                </div>
+                <%}%>
+        </div>
+
+    </div>
+
 
 </body>
 

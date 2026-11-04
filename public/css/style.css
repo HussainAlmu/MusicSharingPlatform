@@ -231,10 +231,17 @@ textarea {
     align-items: flex-end;
     justify-content: space-between;
     flex-direction: row;
+    padding: 3em 6em 2em 6em;
+    background-color: #1c1b20 ;
 }
 
-#reviewButton{
+#reviewButton {
     width: 100%;
     height: 3em;
     font-size: large;
+    border-radius: 15px;
+    border-color: #028de0;
+    color: white;
+    background-color: #028de0;
+
 }
