@@ -59,7 +59,7 @@ function createSong() {
                     <div>
                         <label for="audio-url">Audio URL</label>
                         <div style="display: flex;align-content: center;flex-direction: row;justify-content: center;align-items: center;">
-                            <input id="audio-url" type="text" name="audio-url">
+                            <input id="audio-url" type="text" name="audio_url">
                             <button type="button" class="TrackDelete"> <i class="fa fa-trash-o"></i></button>
                         </div>
                     </div>

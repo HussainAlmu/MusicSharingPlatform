@@ -29,15 +29,16 @@ router.post('/create', async (req, res) => {
 
     for (let index = 0; index < req.body.track_no.length; index++) {
         const newSong = await Song.create({
-            song_name: req.body.song_name[index],
+            song_name: req.body.track_name[index],
             track_number: req.body.track_no[index],
-            audio_url: req.body.audio - url[index],
+            audio_url: req.body.audio_url[index],
             duration: req.body.track_duration[index],
         })
         newAlbum.songs.push(newSong._id);
-        await newAlbum.save();
 
     }
+    await newAlbum.save();
+
 
 
     res.redirect('/album');
