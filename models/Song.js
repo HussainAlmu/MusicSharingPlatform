@@ -6,7 +6,7 @@ const songSchema = new mongoose.Schema({
         required: true
     },
     duration: {
-        type: Number,
+        type: String,
         required: true
     },
     track_number: {
