@@ -3,11 +3,11 @@ const express = require("express");
 const Album = require("../models/Album.js");
 const Genre = require("../models/Genre.js");
 const Artist = require("../models/Artist.js");
+const Song = require("../models/Song.js")
 
 
 router.get('/', async (req, res) => {
     const allAlbums = await Album.find().populate('artist_id');
-    console.log(allAlbums);
     res.render('album/album.ejs', { album: allAlbums });
 });
 
@@ -25,7 +25,14 @@ router.post('/create', async (req, res) => {
         genre: req.body.genre,
         artist_id: req.body.artist_id,
         description: req.body.description
-    });
+    })
+
+    for (let index = 0; index <  req.body.track_no.length; index++) {
+        const newSong = await Song.create({
+            
+        })
+        
+    }
 
     res.redirect('/album');
 

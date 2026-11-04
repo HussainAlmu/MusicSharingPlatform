@@ -21,7 +21,7 @@
             <div id="form-container">
                 <div>
                     <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" placeholder="Enter album name" required>
                 </div>
                 <div>
                     <label for="artist_id">Artist</label>
@@ -36,7 +36,7 @@
                 </div>
                 <div>
                     <label for="release_date">Release Date</label>
-                    <input type="date" id="release_date" name="release_date" required>
+                    <input type="date" id="release_date" name="release_date" placeholder="Select release date" required>
                 </div>
 
             </div>
@@ -45,7 +45,7 @@
             <div id="form-container-2">
                 <div>
                     <label for="cover_img">Cover Image URL</label>
-                    <input type="text" id="cover_img" name="cover_img" required>
+                    <input type="text" id="cover_img" name="cover_img" placeholder="Enter cover image URL" required>
                 </div>
                 <br>
                 <div>
@@ -65,7 +65,7 @@
             </div>
             <div>
                 <label for="description">Description</label>
-                <textarea id="description" name="description"></textarea>
+                <textarea id="description" name="description" placeholder="Enter album description"></textarea>
             </div>
 
         </div>
@@ -77,15 +77,18 @@
                 <div id="tracklist-container">
                     <div>
                         <label for="track_no">No.</label>
-                        <input id="track_no" type="number" name="track_no" disabled value="1">
+                        <input style="text-align: center;" id="track_no" type="number" name="track_no">
                     </div>
                     <div>
                         <label for="track_name">Track Name</label>
-                        <input id="track_name" type="text" name="track_name" required>
+                        <input id="track_name" type="text" name="track_name" placeholder="Enter track name" required>
                     </div>
                     <div>
                         <label for="track_duration">Track Duration</label>
-                        <input id="track_duration" type="text" name="track_duration" required>
+                        <input id="track_duration" type="text" name="track_duration" placeholder="MM:SS"
+                            inputmode="numeric" pattern="[0-9]+:[0-5][0-9]"
+                            title="Enter duration in minutes:seconds (for example, 3:45)" style="text-align: center;"
+                            required>
                     </div>
                 </div>
                 <br>
@@ -94,7 +97,7 @@
                         <label for="audio-url">Audio URL</label>
                         <div
                             style="display: flex;align-content: center;flex-direction: row;justify-content: center;align-items: center;">
-                            <input id="audio-url" type="text" name="audio-url">
+                            <input id="audio-url" type="text" name="audio-url" placeholder="Enter audio URL">
                         </div>
                     </div>
                 </div>
@@ -103,13 +106,12 @@
             <button type="button" id="TrackCreate">+ add a new song</button>
 
         </div>
-        </div>
-        </div>
+     
 
-
+        <button type="submit">Create Album</button>
     </form>
 
-    <button type="submit">Create Album</button>
+
 </body>
 
 </html>

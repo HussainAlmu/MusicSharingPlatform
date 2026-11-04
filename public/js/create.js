@@ -2,7 +2,11 @@ const options = document.querySelector("#genre");
 const buttons = document.querySelector("#genre-tag");
 const csongButton = document.querySelector("#TrackCreate")
 const csongContaner = document.querySelector("#Create-Song")
+const trackNo = document.querySelector("#track_no")
 
+window.addEventListener("load", function () {
+    trackNo.value = "1";
+});
 options.addEventListener("change", function () {
     for (const button of buttons.children) {
         if (button.value === options.value) {
@@ -36,7 +40,7 @@ function createSong() {
     div.innerHTML = `<div id="tracklist-container">
                     <div>
                         <label for="track_no">No.</label>
-                        <input id="track_no" type="number" name="track_no" disabled>
+                        <input style="text-align: center;" id="track_no" type="number" name="track_no" >
                     </div>
                     <div>
                         <label for="track_name">Track Name</label>
@@ -44,7 +48,10 @@ function createSong() {
                     </div>
                     <div>
                         <label for="track_duration">Track Duration</label>
-                        <input id="track_duration" type="text" name="track_duration" required>
+                         <input id="track_duration" type="text" name="track_duration" placeholder="MM:SS"
+                            inputmode="numeric" pattern="[0-9]+:[0-5][0-9]"
+                            title="Enter duration in minutes:seconds (for example, 3:45)" style="text-align: center;"
+                            required>
                     </div>
                 </div>
                 <br>
@@ -70,11 +77,6 @@ csongContaner.addEventListener("click", (event) => {
 
     if (event.target.closest(".TrackDelete")) {
         event.target.closest(".track").remove();
-        const trackNumbers = csongContaner.querySelectorAll('.track [name="track_no"]');
-        trackNumbers.forEach((input, index) => {
-            input.value = index + 1;
-        });
-        nextTrackNumber = trackNumbers.length + 1;
     }
 
 });
