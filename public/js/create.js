@@ -12,9 +12,17 @@ options.addEventListener("change", function () {
     button.textContent = options.options[options.selectedIndex].text;
     button.value = options.value;
     button.type = "button";
+    button.classList.add("genre-button");
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "genre";
+    input.value = options.value;
     button.addEventListener("click", function () {
         button.remove();
+        input.remove();
     });
 
     buttons.appendChild(button);
+    buttons.appendChild(input);
 })
+

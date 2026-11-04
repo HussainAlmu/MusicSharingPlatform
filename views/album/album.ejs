@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+   
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    
+    <% for (let oneAlbum of album) { %>
+        <div class="album-card">
+            <img src="<%= oneAlbum.cover_img %>" alt="<%= oneAlbum.name %>">
+            <h2><%= oneAlbum.name %></h2>
+            <p><%= oneAlbum.artist_id.name %></p>
+        </div>
+    <% } %>
 </body>
 </html>

@@ -5,20 +5,30 @@ const Genre = require("../models/Genre.js");
 const Artist = require("../models/Artist.js");
 
 
-router.get('/',(req,res)=>{
-    res.render('album/album.ejs')
-})
+router.get('/', async (req, res) => {
+    const allAlbums = await Album.find().populate('artist_id');
+    console.log(allAlbums);
+    res.render('album/album.ejs', { album: allAlbums });
+});
 
-router.get('/create',async(req,res)=>{
+router.get('/create', async (req, res) => {
+    let genres = await Genre.find();
+    let artists = await Artist.find();
+    res.render('album/create.ejs', { genres, artists });
+});
 
-    let genres =  await Genre.find()
-    let artists = await Artist.find()
-    res.render('album/create.ejs',{genres, artists})
+router.post('/create', async (req, res) => {
+    const newAlbum = await Album.create({
+        name: req.body.name,
+        cover_img: req.body.cover_img,
+        release_date: req.body.release_date,
+        genre: req.body.genre,
+        artist_id: req.body.artist_id,
+        description: req.body.description
+    });
 
-})
+    res.redirect('/album');
 
-router.post('/create',async(req,res)=>{
-    console.log(req.body)
-})
+});
 
 module.exports = router;
