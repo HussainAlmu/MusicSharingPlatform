@@ -153,13 +153,13 @@ textarea {
 
 }
 
-#tracklist-container{
+#tracklist-container {
     display: flex;
     gap: 10px;
 }
 
-#tracklist-container input,
-#tracklist-container select {
+#create-album input,
+#create-album select {
     box-sizing: border-box;
     padding: 8px;
     color: #F5F0F1;
@@ -171,15 +171,42 @@ textarea {
     font-weight: 400;
 }
 
-#track_duration{
+#track_duration {
     flex: 0 0 125px;
+    width: 9em;
 }
 
-#track_name{
+#track_name {
     flex: 1;
     min-width: 0;
+    width: 32em;
 }
 
-#track_no{
+#track_no {
     flex: 0 0 62px;
+    width: 4em;
+}
+
+#TrackDeleat {
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: white;
+}
+
+.TrackDelete {
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: white;
+}
+
+#tracklist-tag {
+    display: flex;
+}
+
+#audio-url {
+    width: 43em;
+    height: 2.5em;
+
 }

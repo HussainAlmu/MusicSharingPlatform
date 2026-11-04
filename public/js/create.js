@@ -1,5 +1,7 @@
 const options = document.querySelector("#genre");
 const buttons = document.querySelector("#genre-tag");
+const csongButton = document.querySelector("#TrackCreate")
+const csongContaner = document.querySelector("#Create-Song")
 
 options.addEventListener("change", function () {
     for (const button of buttons.children) {
@@ -25,4 +27,56 @@ options.addEventListener("change", function () {
     buttons.appendChild(button);
     buttons.appendChild(input);
 })
+
+let nextTrackNumber = 2;
+
+function createSong() {
+    const div = document.createElement("div");
+    div.classList.add("track");
+    div.innerHTML = `<div id="tracklist-container">
+                    <div>
+                        <label for="track_no">No.</label>
+                        <input id="track_no" type="number" name="track_no" disabled>
+                    </div>
+                    <div>
+                        <label for="track_name">Track Name</label>
+                        <input id="track_name" type="text" name="track_name" required>
+                    </div>
+                    <div>
+                        <label for="track_duration">Track Duration</label>
+                        <input id="track_duration" type="text" name="track_duration" required>
+                    </div>
+                </div>
+                <br>
+                <div id="tracklist-tag">
+                    <div>
+                        <label for="audio-url">Audio URL</label>
+                        <div style="display: flex;align-content: center;flex-direction: row;justify-content: center;align-items: center;">
+                            <input id="audio-url" type="text" name="audio-url">
+                            <button type="button" class="TrackDelete"> <i class="fa fa-trash-o"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <br>`;
+
+    csongContaner.appendChild(div)
+    div.querySelector('[name="track_no"]').value = nextTrackNumber++;
+}
+
+csongButton.addEventListener("click", createSong)
+
+
+csongContaner.addEventListener("click", (event) => {
+
+    if (event.target.closest(".TrackDelete")) {
+        event.target.closest(".track").remove();
+        const trackNumbers = csongContaner.querySelectorAll('.track [name="track_no"]');
+        trackNumbers.forEach((input, index) => {
+            input.value = index + 1;
+        });
+        nextTrackNumber = trackNumbers.length + 1;
+    }
+
+});
+
 

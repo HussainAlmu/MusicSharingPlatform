@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script defer src="/js/create.js"></script>
 </head>
 
@@ -71,20 +73,36 @@
 
         <div id="create-album">
             <h2>Create Tracklist</h2>
-            <div id="tracklist-container">
-                <div>
-                    <label for="track_no">No.</label>
-                    <input id="track_no" type="number" name="track_no" required>
+            <div id="Create-Song">
+                <div id="tracklist-container">
+                    <div>
+                        <label for="track_no">No.</label>
+                        <input id="track_no" type="number" name="track_no" disabled value="1">
+                    </div>
+                    <div>
+                        <label for="track_name">Track Name</label>
+                        <input id="track_name" type="text" name="track_name" required>
+                    </div>
+                    <div>
+                        <label for="track_duration">Track Duration</label>
+                        <input id="track_duration" type="text" name="track_duration" required>
+                    </div>
                 </div>
-                <div>
-                    <label for="track_name">Track Name</label>
-                    <input id="track_name" type="text" name="track_name" required>
+                <br>
+                <div id="tracklist-tag">
+                    <div>
+                        <label for="audio-url">Audio URL</label>
+                        <div
+                            style="display: flex;align-content: center;flex-direction: row;justify-content: center;align-items: center;">
+                            <input id="audio-url" type="text" name="audio-url">
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label for="track_duration">Track Duration</label>
-                    <input id="track_duration" type="text" name="track_duration" required>
-                </div>
+                <br>
             </div>
+            <button type="button" id="TrackCreate">+ add a new song</button>
+
+        </div>
         </div>
         </div>
 
