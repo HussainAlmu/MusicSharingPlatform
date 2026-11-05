@@ -48,7 +48,12 @@
                         <p>your rating</p>
                     </div>
                 </div>
-                <button id="reviewButton">Write Review</button>
+                <% if (typeof review !=='undefined' && review) { %>
+                    <button id="editReviewButton">Edit Review</button>
+                    <% } else { %>
+                        <button id="review-button">Write Review</button>
+                        <% } %>
+
 
             </div>
         </div>
@@ -137,6 +142,7 @@
                 </div>
                 <div style="width: 44em;">
                     <form action="/album/rate" method="POST">
+                        <input type="hidden" name="page_id" value="<%= album._id %>">
                         <div>
                             <h2>
                                 <%=album.name%>
@@ -169,16 +175,74 @@
 
                             <!-- stars 3, 4 and 5 follow the same pattern -->
                         </div>
-                        <label for="title">title</label>
-                        <input type="title" name="title" id="title">
+                        <label for="title">Review title</label>
+                        <input type="text" name="title" id="title">
                         <br>
-                        <label for="review_text">review</label>
+                        <label for="review_text">Review</label>
                         <textarea name="review_text" id="review_text" rows="10" style="width: 100%;"></textarea>
-                        <button id="review-button">sumbit</button>
+                        <button type="submit" id="review-button">Submit</button>
                     </form>
                 </div>
             </div>
         </div>
+        <% if (typeof review !=='undefined' && review) { %>
+            <div id="edit-review-form">
+                <div style="display: flex; gap: 3em;">
+                    <div>
+                        <img src="<%=album.cover_img%>" alt="" style="width: 13em;">
+                    </div>
+                    <div style="width: 44em;">
+                        <form action="/album/rate/edit" method="POST">
+                            <input type="hidden" name="page_id" value="<%= album._id %>">
+                            <div>
+                                <h2>
+                                    <%=album.name%>
+                                </h2>
+                                <p style="color: #ABA5AD;">
+                                    <%= album.artist_id.name %> • Album
+                                </p>
+                            </div>
+                            <legend class="legend">Your rating</legend>
+                            <div class="stars">
+                                <input class="star-input" type="radio" name="rating" id="edit-star1" value="1" required
+                                    <%=review.rating==1 ? 'checked' : '' %>>
+                                <label class="star-label" for="edit-star1"><span class="visually-hidden">1
+                                        star</span><span aria-hidden="true">★</span></label>
+
+                                <input class="star-input" type="radio" name="rating" id="edit-star2" value="2" required
+                                    <%=review.rating==2 ? 'checked' : '' %>>
+                                <label class="star-label" for="edit-star2"><span class="visually-hidden">2
+                                        stars</span><span aria-hidden="true">★</span></label>
+                                <input class="star-input" type="radio" name="rating" id="edit-star3" value="3" required
+                                    <%=review.rating==3 ? 'checked' : '' %>>
+                                <label class="star-label" for="edit-star3"><span class="visually-hidden">3
+                                        star</span><span aria-hidden="true">★</span></label>
+
+                                <input class="star-input" type="radio" name="rating" id="edit-star4" value="4" required
+                                    <%=review.rating==4 ? 'checked' : '' %>>
+                                <label class="star-label" for="edit-star4"><span class="visually-hidden">4
+                                        stars</span><span aria-hidden="true">★</span></label>
+                                <input class="star-input" type="radio" name="rating" id="edit-star5" value="5" required
+                                    <%=review.rating==5 ? 'checked' : '' %>>
+                                <label class="star-label" for="edit-star5"><span class="visually-hidden">5
+                                        star</span><span aria-hidden="true">★</span></label>
+
+
+
+                                <!-- stars 3, 4 and 5 follow the same pattern -->
+                            </div>
+                            <label for="title">Review title</label>
+                            <input type="text" name="title" id="title" value="<%= review.title %>">
+                            <br>
+                            <label for="review_text">Review</label>
+                            <textarea name="review_text" id="review_text" rows="10"
+                                style="width: 100%;"><%= review.review%></textarea>
+                            <button type="submit" id="review-button">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <% } %>
 
 
 </body>

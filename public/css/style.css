@@ -323,9 +323,10 @@ textarea {
     width: 60%;
     border-radius: 15px;
     z-index: 1001;
+    display: none;
 }
 
-body:has(#review-form:not([style*="display:none"]):not([style*="display: none"]))::before {
+body:has(#review-form[style*="display"]:not([style*="display: none"]):not([style*="display:none"]))::before {
     content: "";
     position: fixed;
     inset: 0;
@@ -349,6 +350,41 @@ body:has(#review-form:not([style*="display:none"]):not([style*="display: none"])
 
 }
 
+#edit-review-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1c1b20;
+    padding: 3em;
+    width: 60%;
+    border-radius: 15px;
+    z-index: 1001;
+    display: none;
+}
+
+#edit-review-form input,
+#edit-review-form select {
+    box-sizing: border-box;
+    padding: 8px;
+    height: 3em;
+    color: #F5F0F1;
+    background-color: #151518;
+    border: 1px solid #343239;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    width: 100%;
+
+}
+body:has(#edit-review-form[style*="display"]:not([style*="display: none"]):not([style*="display:none"]))::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+}
 
 
 
@@ -358,72 +394,72 @@ nav {
 }
 
 .stars {
-  display: inline-flex;
-  align-items: center;
+    display: inline-flex;
+    align-items: center;
 }
 
 .star-input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .star-label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0.1rem 0.15rem;
-  color: #c9ced8;
-  font-size: 2.2rem;
-  line-height: 1;
-  cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0.1rem 0.15rem;
+    color: #c9ced8;
+    font-size: 2.2rem;
+    line-height: 1;
+    cursor: pointer;
 }
 
 /* The checked star, and every star before it */
-.star-input:checked + .star-label,
+.star-input:checked+.star-label,
 .star-label:has(~ .star-input:checked) {
-  color: #b45309;
+    color: #b45309;
 }
 
 /* Hover preview, only on devices that really hover */
 @media (hover: hover) {
-  .stars:hover .star-label {
-    color: #c9ced8;
-  }
+    .stars:hover .star-label {
+        color: #c9ced8;
+    }
 
-  .stars:hover .star-label:hover,
-  .stars:hover .star-label:has(~ .star-label:hover) {
-    color: #b45309;
-  }
+    .stars:hover .star-label:hover,
+    .stars:hover .star-label:has(~ .star-label:hover) {
+        color: #b45309;
+    }
 }
 
-.star-input:focus-visible + .star-label {
-  outline: 3px solid #2f46c8;
-  outline-offset: 2px;
-  border-radius: 6px;
+.star-input:focus-visible+.star-label {
+    outline: 3px solid #2f46c8;
+    outline-offset: 2px;
+    border-radius: 6px;
 }
 
 .visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
 }
 
-#review-button{
-        width: 100%;
+#review-button {
+    width: 100%;
     height: 2.5em;
     font-size: large;
     border-radius: 15px;
@@ -431,4 +467,14 @@ nav {
     color: white;
     background-color: #028de0;
     margin-top: 1em;
+}
+
+#editReviewButton {
+    width: 100%;
+    height: 3em;
+    font-size: large;
+    border-radius: 15px;
+    border-color: #e06d02;
+    color: white;
+    background-color: #e06d02;
 }

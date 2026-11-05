@@ -5,6 +5,7 @@ const Genre = require("../models/Genre.js");
 const Artist = require("../models/Artist.js");
 const Song = require("../models/Song.js");
 const { render } = require("ejs");
+const Review = require("../models/Review.js");
 
 
 router.get('/', async (req, res) => {
@@ -43,15 +44,37 @@ router.post('/create', async (req, res) => {
 
 });
 
-router.get("/:id",async (req, res) => {
+router.get("/:id", async (req, res) => {
+    console.log(req.params.id);
     const album = await Album.findById(req.params.id).populate('songs').populate("artist_id");
     const albumByArtist = await Album.find({ artist_id: album.artist_id._id });
+    const review = req.session.user ? await Review.findOne({ album: album._id, user: req.session.user._id }) : null;
     let songs = album.songs
-    res.render('album/album-det.ejs', {album,songs,albumByArtist})
+    res.render('album/album-det.ejs', { album, songs, albumByArtist, review })
 })
 
-router.post("/rate",  async (req, res) => {
-    console.log(req.body)
+router.post("/rate", async (req, res) => {
+    const review = await Review.create({
+        rating: req.body.rating,
+        title: req.body.title,
+        review: req.body.review_text,
+        user: req.session.user._id,
+        album: req.body.page_id,
+    })
+    res.redirect('/album');
+})
+
+router.post("/rate/edit", async (req, res) => {
+    await Review.findOneAndUpdate({
+        user: req.session.user._id,
+        album: req.body.page_id,
+    },
+    {
+        rating: req.body.rating,
+        title: req.body.title,
+        review: req.body.review_text,
+    }, { new: true });
+    res.redirect('/album');
 })
 
 module.exports = router;
