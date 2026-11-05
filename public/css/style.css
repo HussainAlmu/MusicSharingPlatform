@@ -232,7 +232,7 @@ textarea {
     justify-content: space-between;
     flex-direction: row;
     padding: 3em 6em 2em 6em;
-    background-color: #1c1b20 ;
+    background-color: #1c1b20;
 }
 
 #reviewButton {
@@ -246,7 +246,7 @@ textarea {
 
 }
 
-.album-det-buttons{
+.album-det-buttons {
     width: 100%;
     height: 3em;
     background: none;
@@ -259,5 +259,53 @@ textarea {
 }
 
 .album-det-buttons:hover {
+    background-color: #028de0;
+}
+
+#sign-up {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+#sign-up input,
+#sign-up select {
+    box-sizing: border-box;
+    padding: 8px;
+    height: 4em;
+    color: #F5F0F1;
+    background-color: #151518;
+    border: 1px solid #343239;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    
+}
+
+#sightUpButton {
+    width: 100%;
+    height: 3em;
+    font-size: large;
+    border-radius: 15px;
+    border-color: #028de0;
+    color: white;
+    background-color: #028de0;
+
+}
+
+.nav-buttons {
+    width: 100%;
+    height: 3em;
+    background: none;
+    color: white;
+    border: none;
+    background-color: #1c1b20;
+    height: 3.6em;
+    font-size: 0.9em;
+    border-radius: 10px;
+}
+
+.nav-buttons:hover {
     background-color: #028de0;
 }

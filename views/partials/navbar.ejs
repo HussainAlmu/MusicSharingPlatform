@@ -1,13 +1,25 @@
 <nav>
-    
-    <a href="/">Homepage</a>
+
+
     <% if (user){ %>
-    <a href="/auth/sign-out">Logout</a>
+        <div style="display: flex; align-items: center;justify-content: space-between;background-color: #1c1b20; padding: 0em 5em 0em 5em ;" >
+            <div style="display: flex;">
+                <button class="nav-buttons" href="/">Homepage</button>
+                <button class="nav-buttons" href="/auth/sign-out">Logout</button>
+            </div>
+            <div>
+                <img src="<%=user.pfp%>" alt="" style="width: 4em;border-radius: 100px;">
+            </div>
+        </div>
 
-    <% } else{ %>
-    <a href="/auth/sign-up">Sign up</a>
-    <a href="/auth/sign-in">Login</a>
 
-    <% } %>
-    
+        <% } else{ %>
+            <a href="/auth/sign-up">Sign up</a>
+            <a href="/auth/sign-in">Login</a>
+            <a href="/">Homepage</a>
+
+            <% } %>
+
+
+
 </nav>

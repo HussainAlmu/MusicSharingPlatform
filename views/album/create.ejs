@@ -12,104 +12,108 @@
 </head>
 
 <body id="create-album-body">
-    <h1>Create Album</h1>
+    <%- include('../partials/navbar') %>
 
-    <form id="create-album-form" action="/album/create" method="POST">
-        <div id="create-album">
+        <h1>Create Album</h1>
 
-            <h2>Album details</h2>
-            <div id="form-container">
-                <div>
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" placeholder="Enter album name" required>
-                </div>
-                <div>
-                    <label for="artist_id">Artist</label>
-                    <select id="artist_id" name="artist_id" required>
-                        <option value="">Select an artist</option>
-                        <% for (let oneArtist of artists) { %>
-                            <option value="<%= oneArtist._id %>">
-                                <%= oneArtist.name %>
-                            </option>
-                            <% } %>
-                    </select>
-                </div>
-                <div>
-                    <label for="release_date">Release Date</label>
-                    <input type="date" id="release_date" name="release_date" placeholder="Select release date" required>
-                </div>
+        <form id="create-album-form" action="/album/create" method="POST">
+            <div id="create-album">
 
-            </div>
-            <br>
-
-            <div id="form-container-2">
-                <div>
-                    <label for="cover_img">Cover Image URL</label>
-                    <input type="text" id="cover_img" name="cover_img" placeholder="Enter cover image URL" required>
-                </div>
-                <br>
-                <div>
-                    <label for="genre">Genre</label>
-                    <select id="genre" name="genre" required>
-                        <option value="">Select a genre</option>
-                        <% for (let oneGenre of genres) { %>
-                            <option value="<%= oneGenre._id %>">
-                                <%= oneGenre.name %>
-                            </option>
-                            <% } %>
-                    </select>
-                    <div id="genre-tag" name="genre-tag"></div>
-
-                </div>
-                <br>
-            </div>
-            <div>
-                <label for="description">Description</label>
-                <textarea id="description" name="description" placeholder="Enter album description"></textarea>
-            </div>
-
-        </div>
-        </div>
-
-        <div id="create-album">
-            <h2>Create Tracklist</h2>
-            <div id="Create-Song">
-                <div id="tracklist-container">
+                <h2>Album details</h2>
+                <div id="form-container">
                     <div>
-                        <label for="track_no">No.</label>
-                        <input style="text-align: center;" id="track_no" type="number" name="track_no">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter album name" required>
                     </div>
                     <div>
-                        <label for="track_name">Track Name</label>
-                        <input id="track_name" type="text" name="track_name" placeholder="Enter track name" required>
+                        <label for="artist_id">Artist</label>
+                        <select id="artist_id" name="artist_id" required>
+                            <option value="">Select an artist</option>
+                            <% for (let oneArtist of artists) { %>
+                                <option value="<%= oneArtist._id %>">
+                                    <%= oneArtist.name %>
+                                </option>
+                                <% } %>
+                        </select>
                     </div>
                     <div>
-                        <label for="track_duration">Track Duration</label>
-                        <input id="track_duration" type="text" name="track_duration" placeholder="MM:SS"
-                            inputmode="numeric" pattern="[0-9]+:[0-5][0-9]"
-                            title="Enter duration in minutes:seconds (for example, 3:45)" style="text-align: center;"
+                        <label for="release_date">Release Date</label>
+                        <input type="date" id="release_date" name="release_date" placeholder="Select release date"
                             required>
                     </div>
+
                 </div>
                 <br>
-                <div id="tracklist-tag">
+
+                <div id="form-container-2">
                     <div>
-                        <label for="audio-url">Audio URL</label>
-                        <div
-                            style="display: flex;align-content: center;flex-direction: row;justify-content: center;align-items: center;">
-                            <input id="audio-url" type="text" name="audio_url" placeholder="Enter audio URL">
+                        <label for="cover_img">Cover Image URL</label>
+                        <input type="text" id="cover_img" name="cover_img" placeholder="Enter cover image URL" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="genre">Genre</label>
+                        <select id="genre" name="genre" required>
+                            <option value="">Select a genre</option>
+                            <% for (let oneGenre of genres) { %>
+                                <option value="<%= oneGenre._id %>">
+                                    <%= oneGenre.name %>
+                                </option>
+                                <% } %>
+                        </select>
+                        <div id="genre-tag" name="genre-tag"></div>
+
+                    </div>
+                    <br>
+                </div>
+                <div>
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Enter album description"></textarea>
+                </div>
+
+            </div>
+            </div>
+
+            <div id="create-album">
+                <h2>Create Tracklist</h2>
+                <div id="Create-Song">
+                    <div id="tracklist-container">
+                        <div>
+                            <label for="track_no">No.</label>
+                            <input style="text-align: center;" id="track_no" type="number" name="track_no">
+                        </div>
+                        <div>
+                            <label for="track_name">Track Name</label>
+                            <input id="track_name" type="text" name="track_name" placeholder="Enter track name"
+                                required>
+                        </div>
+                        <div>
+                            <label for="track_duration">Track Duration</label>
+                            <input id="track_duration" type="text" name="track_duration" placeholder="MM:SS"
+                                inputmode="numeric" pattern="[0-9]+:[0-5][0-9]"
+                                title="Enter duration in minutes:seconds (for example, 3:45)"
+                                style="text-align: center;" required>
                         </div>
                     </div>
+                    <br>
+                    <div id="tracklist-tag">
+                        <div>
+                            <label for="audio-url">Audio URL</label>
+                            <div
+                                style="display: flex;align-content: center;flex-direction: row;justify-content: center;align-items: center;">
+                                <input id="audio-url" type="text" name="audio_url" placeholder="Enter audio URL">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
                 </div>
-                <br>
+                <button type="button" id="TrackCreate">+ add a new song</button>
+
             </div>
-            <button type="button" id="TrackCreate">+ add a new song</button>
 
-        </div>
-     
 
-        <button type="submit">Create Album</button>
-    </form>
+            <button type="submit">Create Album</button>
+        </form>
 
 
 </body>
