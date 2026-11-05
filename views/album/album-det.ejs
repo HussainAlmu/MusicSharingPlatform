@@ -7,7 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <script defer src="/js/review.js"></script>
 
 </head>
 
@@ -137,6 +137,14 @@
                 </div>
                 <div style="width: 44em;">
                     <form action="/album/rate" method="POST">
+                        <div>
+                            <h2>
+                                <%=album.name%>
+                            </h2>
+                            <p style="color: #ABA5AD;">
+                                <%= album.artist_id.name %> • Album
+                            </p>
+                        </div>
                         <legend class="legend">Your rating</legend>
                         <div class="stars">
                             <input class="star-input" type="radio" name="rating" id="star1" value="1" required>
@@ -166,7 +174,7 @@
                         <br>
                         <label for="review_text">review</label>
                         <textarea name="review_text" id="review_text" rows="10" style="width: 100%;"></textarea>
-                        <button>sumbit</button>
+                        <button id="review-button">sumbit</button>
                     </form>
                 </div>
             </div>
