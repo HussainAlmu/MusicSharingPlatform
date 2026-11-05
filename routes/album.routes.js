@@ -45,8 +45,9 @@ router.post('/create', async (req, res) => {
 
 router.get("/:id",async (req, res) => {
     const album = await Album.findById(req.params.id).populate('songs').populate("artist_id");
+    const albumByArtist = await Album.find({ artist_id: album.artist_id._id });
     let songs = album.songs
-    res.render('album/album-det.ejs', {album,songs})
+    res.render('album/album-det.ejs', {album,songs,albumByArtist})
 })
 
 module.exports = router;

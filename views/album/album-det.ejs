@@ -50,41 +50,82 @@
 
         </div>
     </div>
-    <div style="padding: 2em 6em 0em 6em;">
-        <div style="width: 60%; display: flex; justify-content: space-between;">
-            <h3>track list</h3>
-            <h3>duration</h3>
-        </div>
-        <div
-            style="display: flex; width: 60%; justify-content: space-between;background-color: #1c1b20 ; padding: 0.5em 0em 0.5em 0em; border-radius: 8px;flex-direction: column;">
-            <% for (let oneSongs of songs) { %>
-                <div style="display: flex; justify-content: space-between; padding: 0.5em 0em 0.5em 0em;">
+    <div style="display: flex; justify-content: space-between;">
 
-                    <div style="display: flex; gap: 1em; flex-direction: row; align-items: center;">
-                        <div style="padding-left: 2em;">
+        <div style="padding: 2em 2em 0em 6em;width: 60%;">
+            <div style="width: 100%; display: flex; justify-content: space-between;">
+                <h3>track list</h3>
+            </div>
+            <div
+                style="display: flex; width: 100%; justify-content: space-between;background-color: #1c1b20 ; padding: 0.5em 0em 0.5em 0em; border-radius: 8px;flex-direction: column;">
+                <% for (let oneSongs of songs) { %>
+                    <div style="display: flex; justify-content: space-between; padding: 0.5em 0em 0.5em 0em;">
+
+                        <div style="display: flex; gap: 1em; flex-direction: row; align-items: center;">
+                            <div style="padding-left: 2em;">
+                                <p style="color: #ABA5AD;">
+                                    <%=oneSongs.track_number%>
+                                </p>
+                            </div>
+                            <div>
+                                <p style="font-size: 1em; ">
+                                    <%=oneSongs.song_name %>
+                                </p>
+                                <p style="font-size: 0.9em; color: #ABA5AD; line-height: 0;">
+                                    <%= album.artist_id.name %>
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            style="display:flex; align-items:center; flex-direction: row; gap: 5em;padding-right: 2em;">
                             <p style="color: #ABA5AD;">
-                                <%=oneSongs.track_number%>
+                                <%=oneSongs.duration%>
                             </p>
-                        </div>
-                        <div>
-                            <p style="font-size: 1em; ">
-                                <%=oneSongs.song_name %>
-                            </p>
-                            <p style="font-size: 0.9em; color: #ABA5AD; line-height: 0;">
-                                <%= album.artist_id.name %>
-                            </p>
+                            <i style="font-size:24px" class="fa">&#xf144;</i>
                         </div>
                     </div>
-                    <div style="display:flex; align-items:center; flex-direction: row; gap: 5em;padding-right: 2em;">
-                        <p style="color: #ABA5AD;">
-                            <%=oneSongs.duration%>
-                        </p>
-                        <i style="font-size:24px" class="fa">&#xf144;</i>
-                    </div>
-                </div>
-                <%}%>
-        </div>
+                    <%}%>
+            </div>
 
+
+        </div>
+        <div style="width: 30%; margin: 2em 6em 0em 0em; ">
+            <div style="background-color: #1c1b20 ; border-radius: 15px;">
+                <button class="album-det-buttons">add album to list</button>
+                <button class="album-det-buttons">edit album</button>
+                <button class="album-det-buttons">delete album</button>
+                <button class="album-det-buttons"><i style="font-size:24px; margin-right: 0.5em;"
+                        class="fa">&#xf144;</i>Liston on Streaming</button>
+
+            </div>
+            <h3>more of <%= album.artist_id.name %>
+            </h3>
+            <% for (let oneAlbum of albumByArtist) { %>
+                <% if (oneAlbum._id.toString() !==album._id.toString()) { %>
+                    <a href="/album/<%= oneAlbum._id %>" style="color: inherit; text-decoration: none;">
+                        <div
+                            style="display:flex;gap:1em;align-items:center;background-color: #1c1b20; padding: 1em; border-radius: 15px;">
+                            <div>
+
+                                <img src="<%=oneAlbum.cover_img%>" alt="" style="width: 5em;">
+
+                            </div>
+                            <div>
+                                <p style="margin: 0.5em 0em 0.5em 0em;">
+                                    <%=oneAlbum.name%>
+                                </p>
+                                <p style="color: #ABA5AD; margin: 0;">Album &#8226; <%= new
+                                        Date(oneAlbum.release_date).toISOString().slice(0, 10)%>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                    <% } %>
+                        <%}%>
+
+
+
+        </div>
     </div>
 
 
