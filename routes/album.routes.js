@@ -50,4 +50,8 @@ router.get("/:id",async (req, res) => {
     res.render('album/album-det.ejs', {album,songs,albumByArtist})
 })
 
+router.post("/rate",  async (req, res) => {
+    console.log(req.body)
+})
+
 module.exports = router;
