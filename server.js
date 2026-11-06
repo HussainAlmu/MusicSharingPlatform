@@ -10,6 +10,7 @@ const connectToDB = require('./db.js')
 
 const Genre = require("./models/Genre.js");
 const Artist = require("./models/Artist.js");
+const Review = require("./models/Review.js")
 
 // middleware imports
 const isSignedIn = require("./middleware/is-signed-in.js");
@@ -48,10 +49,45 @@ app.use(passUserToView)
 
 
 async function makeArtist() {
-  const artist = await Artist.create({
-    name: "Tyler, The Creator"
-  });
+await Review.insertMany([
+    {
+        rating: 5,
+        title: "One of Tyler's best albums",
+        review: "IGOR is an incredible album. The production is amazing and every song contributes to the overall story.",
+        user: "6aeda1c9c9702203b37e2881",
+        album: "6aeb819701da59a31845952e"
+    },
+    {
+        rating: 4,
+        title: "Amazing production",
+        review: "Tyler experiments with different sounds and creates a unique atmosphere. Some songs took a while to grow on me.",
+        user: "6aeda1d6c9702203b37e2882",
+        album: "6aeb819701da59a31845952e"
+    },
+    {
+        rating: 5,
+        title: "A masterpiece",
+        review: "IGOR is a masterpiece from beginning to end. The storytelling and transitions make the album feel complete.",
+        user: "6aeda1e1c9702203b37e2883",
+        album: "6aeb819701da59a31845952e"
+    },
+    {
+        rating: 3,
+        title: "Good but not for everyone",
+        review: "The production is creative, but the heavy vocal effects are not always my thing. Still a good album.",
+        user: "6aeda1ebc9702203b37e2884",
+        album: "6aeb819701da59a31845952e"
+    },
+    {
+        rating: 4,
+        title: "Unique listening experience",
+        review: "I love the combination of funk, soul and alternative hip-hop. A very creative project.",
+        user: "6aeda1f6c9702203b37e2885",
+        album: "6aeb819701da59a31845952e"
+    }
+]);
 }
+
 
 
 

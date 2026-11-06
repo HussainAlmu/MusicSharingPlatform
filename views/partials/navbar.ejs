@@ -4,8 +4,8 @@
     <% if (user){ %>
         <div style="display: flex; align-items: center;justify-content: space-between;background-color: #1c1b20; padding: 0em 5em 0em 5em ;" >
             <div style="display: flex;">
-                <button class="nav-buttons" href="/">Homepage</button>
-                <button class="nav-buttons" href="/auth/sign-out">Logout</button>
+                <a href="/"><button class="nav-buttons" href="/">Homepage</button></a>
+                <a href="/auth/sign-out"><button class="nav-buttons" href="/auth/sign-out">Logout</button></a>
             </div>
             <div>
                 <img src="<%=user.pfp%>" alt="" style="width: 4em;border-radius: 100px;">

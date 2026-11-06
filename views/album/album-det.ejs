@@ -17,7 +17,7 @@
         <div id="album-details-top">
             <div id="album-details">
                 <div>
-                    <img src="<%=album.cover_img%>" alt="">
+                    <img src="<%=album.cover_img%>" alt="" style="width: 20em; height: 20em;">
                 </div>
                 <div>
                     <h1>
@@ -32,21 +32,30 @@
                     </p>
                 </div>
             </div>
-
+            <% const averageRating = allReviews.length
+                ? allReviews.reduce((sum, oneReview) => sum + Number(oneReview.rating || 0), 0) / allReviews.length
+                : 0; %>
             <div style="width: 40%;">
                 <div style="display: flex;gap: 3em;justify-content: center;">
                     <div style="text-align: center;">
-                        <h2>0</h2>
+                        <h2><%= allReviews.length %></h2>
                         <p>total reviews</p>
                     </div>
                     <div style="text-align: center;">
-                        <h2>0/5</h2>
+                        <h2><%= Math.round(averageRating) %>/5</h2>
                         <p>Average rating</p>
                     </div>
+                    <% if (typeof review !== 'undefined' && review) { %>
                     <div style="text-align: center;">
+                        <h2><%= review.rating %>/5</h2>
+                        <p>your rating</p>
+                    </div>
+                    <% }else{ %>
+                        <div style="text-align: center;">
                         <h2>0/5</h2>
                         <p>your rating</p>
                     </div>
+                    <%}%>
                 </div>
                 <% if (typeof review !=='undefined' && review) { %>
                     <button id="editReviewButton">Edit Review</button>
@@ -94,7 +103,79 @@
                         <%}%>
                 </div>
 
-
+                <div>
+                    <h3>reviews</h3>
+                </div>
+                <% if (typeof review !=='undefined' && review) { %>
+                    <div style="width: 100%; background-color: #1c1b20; border-radius: 15px; ">
+                        <div style="display: flex;gap: 1em;flex-direction: row;align-items: center; padding: 1em;">
+                            <div>
+                                <img src="<%=review.user.pfp%>" alt=""
+                                    style="width: 6em; height: 6em;border-radius: 4em;">
+                            </div>
+                            <div>
+                                <p style="color: #ABA5AD;">reviewed by <span style="color: white;">
+                                        <%=review.user.username%>
+                                    </span></p>
+                                <p style="color: #ABA5AD;">Reviewed on <%= new
+                                        Date(review.createdAt).toLocaleDateString() %>
+                                </p>
+                            </div>
+                        </div>
+                        <div style="padding: 0em 1em 0em 1em;">
+                            <h3 style="margin: 0;">
+                                <%=review.title%>
+                            </h3>
+                            <h3 aria-label="Rating: <%= review.rating %> out of 5"
+                                style="color: #ffc107;margin-top: 0.2em;">
+                                <% for (let star=1; star <=5; star++) { %>
+                                    <% if (star <=review.rating) { %>
+                                        <span style="color: #ffc107;">★</span>
+                                        <% } else { %>
+                                            <span style="color: #505050;">☆</span>
+                                            <% } %>
+                                                <% } %>
+                            </h3>
+                            <p style="padding-bottom: 1.5em; white-space:pre-wrap;"><%= review.review %>
+                            </p>
+                        </div>
+                    </div>
+                    <% } %>
+                        <% for (let oneReview of allReviews) { %>
+                            <% if (oneReview.user._id.toString()===review.user._id.toString()) continue; %>
+                                <div style="width: 100%; background-color: #1c1b20; border-radius: 15px; ">
+                                    <div
+                                        style="display: flex;gap: 1em;flex-direction: row;align-items: center; padding: 1em;">
+                                        <div>
+                                            <img src="<%=oneReview.user.pfp%>" alt=""
+                                                style="width: 6em; height: 6em;border-radius: 4em;">
+                                        </div>
+                                        <div>
+                                            <p style="color: #ABA5AD;">reviewed by <span style="color: white;"><%=oneReview.user.username%></span></p>
+                                            <p style="color: #ABA5AD;">Reviewed on <%= new
+                                                    Date(oneReview.createdAt).toLocaleDateString() %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div style="padding: 0em 1em 0em 1em;">
+                                        <h3 style="margin: 0;">
+                                            <%=oneReview.title%>
+                                        </h3>
+                                        <h3 aria-label="Rating: <%= oneReview.rating %> out of 5"
+                                            style="color: #ffc107;margin-top: 0.2em;">
+                                            <% for (let star=1; star <=5; star++) { %>
+                                                <% if (star <=oneReview.rating) { %>
+                                                    <span style="color: #ffc107;">★</span>
+                                                    <% } else { %>
+                                                        <span style="color: #505050;">☆</span>
+                                                        <% } %>
+                                                            <% } %>
+                                        </h3>
+                                        <p style="padding-bottom: 1.5em; white-space:pre-wrap;"><%= oneReview.review %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <% } %>
             </div>
             <div style="width: 30%; margin: 2em 6em 0em 0em; ">
                 <div style="background-color: #1c1b20 ; border-radius: 15px;">

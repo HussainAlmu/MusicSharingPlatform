@@ -16,5 +16,8 @@ document.addEventListener("click", (event) => {
 	if (!form.contains(event.target) && !button.contains(event.target)) {
 		form.style.display = "none"
 	}
+		if (!editForm.contains(event.target) && !edit.contains(event.target)) {
+			editForm.style.display = "none"
+		}
 })
 

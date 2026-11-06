@@ -29,15 +29,24 @@ router.post('/create', async (req, res) => {
         description: req.body.description
     })
 
-    for (let index = 0; index < req.body.track_no.length; index++) {
+    if (req.body.track_no.length >= 2) {
+        for (let index = 0; index < req.body.track_no.length; index++) {
+            const newSong = await Song.create({
+                song_name: req.body.track_name[index],
+                track_number: req.body.track_no[index],
+                audio_url: req.body.audio_url[index],
+                duration: req.body.track_duration[index],
+            })
+            newAlbum.songs.push(newSong._id);
+        }
+    } else {
         const newSong = await Song.create({
-            song_name: req.body.track_name[index],
-            track_number: req.body.track_no[index],
-            audio_url: req.body.audio_url[index],
-            duration: req.body.track_duration[index],
-        })
+            song_name: req.body.track_name,
+            track_number: req.body.track_no,
+            audio_url: req.body.audio_url,
+            duration: req.body.track_duration,
+        });
         newAlbum.songs.push(newSong._id);
-
     }
     await newAlbum.save();
     res.redirect('/album');
@@ -48,9 +57,10 @@ router.get("/:id", async (req, res) => {
     console.log(req.params.id);
     const album = await Album.findById(req.params.id).populate('songs').populate("artist_id");
     const albumByArtist = await Album.find({ artist_id: album.artist_id._id });
-    const review = req.session.user ? await Review.findOne({ album: album._id, user: req.session.user._id }) : null;
+    const review = req.session.user ? await Review.findOne({ album: album._id, user: req.session.user._id }).populate('user') : null;
+    const allReviews = await Review.find({ album: album._id }).populate('user');
     let songs = album.songs
-    res.render('album/album-det.ejs', { album, songs, albumByArtist, review })
+    res.render('album/album-det.ejs', { album, songs, albumByArtist, review, allReviews })
 })
 
 router.post("/rate", async (req, res) => {
