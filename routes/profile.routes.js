@@ -5,17 +5,17 @@ const Artist = require("../models/Artist.js");
 const Review = require("../models/Review.js")
 
 router.get("/", async (req, res) => {
-    const user = await User.find().populate("fav")
+    const users = await User.find().populate("fav")
     const reviews = await Review.find()
-    res.render('profile/profile.ejs',{user , reviews})
+    res.render('profile/profile.ejs',{users , reviews})
 })
 
 router.get("/:id", async (req, res) => {
-    const user = await User.findById(req.params.id).populate("fav")
+    const profileUser = await User.findById(req.params.id).populate("fav")
     const artist = await Artist.find()
     const reviews = await Review.find({ user: req.params.id }).populate("album")
     console.log(reviews)
-    res.render('profile/profile-det.ejs',{ user, artist, reviews })
+    res.render('profile/profile-det.ejs',{ profileUser, artist, reviews })
 })
 
 router.post("/edit", async (req, res) => {

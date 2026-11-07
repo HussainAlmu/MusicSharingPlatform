@@ -15,22 +15,22 @@
         <div id="profile-form">
             <div style="display: flex; gap: 3em;">
                 <div>
-                    <img src="<%=user.pfp%>" alt="" style="width: 13em;">
+                    <img src="<%=profileUser.pfp%>" alt="" style="width: 13em;">
                 </div>
                 <div style="width: 44em;">
                     <form action="/profile/edit" method="POST">
-                        <input type="hidden" name="page_id" value="<%= user._id %>">
+                        <input type="hidden" name="page_id" value="<%= profileUser._id %>">
                         <div style="padding-bottom: 0.2em;">
                             <label for="username">username</label>
-                            <input type="text" name="username" id="username" value="<%=user.username%>">
+                            <input type="text" name="username" id="username" value="<%=profileUser.username%>">
                         </div>
                         <div style="padding-bottom: 0.2em;">
                             <label for="pfp">profile picture</label>
-                            <input type="text" name="pfp" id="pfp" value="<%=user.pfp%>">
+                            <input type="text" name="pfp" id="pfp" value="<%=profileUser.pfp%>">
                         </div>
                         <div style="padding-bottom: 0.2em;">
                             <label for="bio">bio</label>
-                            <textarea name="bio" id="bio" rows="10" style="width: 100%;"><%=user.bio%></textarea>
+                            <textarea name="bio" id="bio" rows="10" style="width: 100%;"><%=profileUser.bio%></textarea>
                         </div>
                         <button type="submit" id="profile-button">Submit</button>
                     </form>
@@ -40,11 +40,11 @@
         <div id="album-details-top">
             <div id="album-details">
                 <div>
-                    <img src="<%=user.pfp%>" alt="" style="width: 10em; height: 10em; border-radius: 200px;">
+                    <img src="<%=profileUser.pfp%>" alt="" style="width: 10em; height: 10em; border-radius: 200px;">
                 </div>
                 <div>
                     <h1>
-                        <%=user.username%>
+                        <%=profileUser.username%>
                     </h1>
                 </div>
             </div>
@@ -76,7 +76,7 @@
             </div>
             <div
                 style="display: flex; width: 100% ; padding: 0.5em 0em 0.5em 0em; border-radius: 8px;flex-direction: row; gap: 2em;">
-                <% for (let oneAlbum of user.fav.slice().sort((a, b)=> new Date(b.createdAt) - new
+                <% for (let oneAlbum of profileUser.fav.slice().sort((a, b)=> new Date(b.createdAt) - new
                     Date(a.createdAt)).slice(0, 5)) { %>
 
                     <div class="album-card">

@@ -12,7 +12,7 @@
     <%- include('../partials/navbar') %>
 
     <div style="margin: 3em;display: flex;flex-direction: row;flex-wrap: wrap;">
-        <%for (let oneUser of user){%>
+        <%for (let oneUser of users){%>
         <div style="width: 20%;display: flex;flex-direction: column;align-items: center;">
             <div style="display: flex;flex-direction: column;align-content: center;align-items: center;">
                 <a href="/profile/<%= oneUser._id %>"><img src="<%=oneUser.pfp%>" alt="" style="width: 10em; height: 10em; border-radius: 200px;"></a>
