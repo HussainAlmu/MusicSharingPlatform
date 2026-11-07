@@ -58,9 +58,9 @@ router.get("/:id", async (req, res) => {
     console.log(req.params.id);
     const album = await Album.findById(req.params.id).populate('songs').populate("artist_id");
     const albumByArtist = await Album.find({ artist_id: album.artist_id._id });
-    const review = req.session.user ? await Review.findOne({ album: album._id, user: req.session.user._id }).populate('user') : null;
+    const review = req.session.theUser ? await Review.findOne({ album: album._id, user: req.session.theUser._id }).populate('user') : null;
     const allReviews = await Review.find({ album: album._id }).populate('user');
-    const user = await User.findById(req.session.user._id)
+    const user = await User.findById(req.session.theUser._id)
     let isFav = false;
     for (let oneFav of user.fav) {
         if (oneFav.toString() === req.params.id) isFav = true;
@@ -75,7 +75,7 @@ router.post("/rate", async (req, res) => {
         rating: req.body.rating,
         title: req.body.title,
         review: req.body.review_text,
-        user: req.session.user._id,
+        user: req.session.theUser._id,
         album: req.body.page_id,
     })
     res.redirect('/album');
@@ -83,7 +83,7 @@ router.post("/rate", async (req, res) => {
 
 router.post("/rate/edit", async (req, res) => {
     await Review.findOneAndUpdate({
-        user: req.session.user._id,
+        user: req.session.theUser._id,
         album: req.body.page_id,
     },
         {
@@ -95,14 +95,14 @@ router.post("/rate/edit", async (req, res) => {
 })
 
 router.post("/fav/:id", async (req, res) => {
-    await User.findByIdAndUpdate({ _id: req.session.user._id }, {
+    await User.findByIdAndUpdate({ _id: req.session.theUser._id }, {
         $addToSet: { fav: req.params.id }
     });
     res.redirect(`/album/${req.params.id}`);
 })
 
 router.post("/removeFav/:id", async (req, res) => {
-    await User.findByIdAndUpdate({ _id: req.session.user._id }, {
+    await User.findByIdAndUpdate({ _id: req.session.theUser._id }, {
         $pull: { fav: req.params.id }
     });
     res.redirect(`/album/${req.params.id}`);

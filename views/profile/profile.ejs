@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div style="margin: 3em;display: flex;flex-direction: row;flex-wrap: wrap;">
+        <%for (let oneUser of user){%>
+        <div style="width: 20%;display: flex;flex-direction: column;align-items: center;">
+            <div style="display: flex;flex-direction: column;align-content: center;align-items: center;">
+                <a href="/profile/<%= oneUser._id %>"><img src="<%=oneUser.pfp%>" alt="" style="width: 10em; height: 10em; border-radius: 200px;"></a>
+            </div>
+            <div style="display: flex;flex-direction: column;align-items: center;">
+                <h2 style="margin: 0; margin-top: 0.5em;">
+                    <%=oneUser.username%>
+                </h2>
+                <p style="color: #ABA5AD; margin: 0; margin-bottom: 1em;"><%= reviews.filter(r => String(r.user) === String(oneUser._id)).length %> : reviews</p>
+            </div>
+            <div style="display: flex;flex-direction: column;align-content: center; flex-direction: row;justify-content: center; gap: 1em;">
+                <% const newestFavs=[...oneUser.fav].sort((a, b)=> Date.parse(b.createdAt) - Date.parse(a.createdAt));
+                    %>
+                    <% for (let i=0; i < Math.min(newestFavs.length, 3); i++) { const oneAlbum=newestFavs[i]; %>
+                        <img src="<%=oneAlbum.cover_img%>" alt="" style="width: 27%;">
+                        <% } %>
+
+            </div>
+        </div>
+        <%}%>
+    </div>
+</body>
+
+</html>
