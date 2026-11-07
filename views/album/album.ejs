@@ -5,17 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script defer src="/js/album.js"></script>
+
 
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
     <%- include('../partials/navbar') %>
+        <div style="display: flex;justify-content: center;">
+            <input type="text" id="searchBar" placeholder="Search for a Album...">
+        </div>
 
-        <% for (let oneAlbum of album) { %>
-            <a href="/album/<%= oneAlbum._id %>">
+        <div style="margin: 3em;display: flex;flex-wrap: wrap;flex-direction: row;gap: 2em;">
+            <% for (let oneAlbum of album) { %>
                 <div class="album-card">
-                    <img src="<%= oneAlbum.cover_img %>" alt="<%= oneAlbum.name %>">
+                    <a href="/album/<%= oneAlbum._id %>"><img src="<%= oneAlbum.cover_img %>"
+                            alt="<%= oneAlbum.name %>"> </a>
                     <h2>
                         <%= oneAlbum.name %>
                     </h2>
@@ -23,8 +29,8 @@
                         <%= oneAlbum.artist_id.name %>
                     </p>
                 </div>
-            </a>
-            <% } %>
+                <% } %>
+        </div>
 </body>
 
 </html>
