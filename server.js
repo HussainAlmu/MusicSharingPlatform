@@ -20,6 +20,9 @@ const passUserToView = require("./middleware/pass-user-to-view.js");
 const authController = require("./routes/auth.routes.js");
 const indexController = require("./routes/index.routes.js");
 const albumController = require("./routes/album.routes.js");
+const profileController = require("./routes/profile.routes.js");
+const Album = require("./models/Album.js");
+const Song = require("./models/Song.js");
 
 // Middleware
 app.use(express.static('public')) // my app will serve all static files from public folder
@@ -49,45 +52,56 @@ app.use(passUserToView)
 
 
 async function makeArtist() {
-await Review.insertMany([
-    {
-        rating: 5,
-        title: "One of Tyler's best albums",
-        review: "IGOR is an incredible album. The production is amazing and every song contributes to the overall story.",
-        user: "6aeda1c9c9702203b37e2881",
-        album: "6aeb819701da59a31845952e"
-    },
-    {
-        rating: 4,
-        title: "Amazing production",
-        review: "Tyler experiments with different sounds and creates a unique atmosphere. Some songs took a while to grow on me.",
-        user: "6aeda1d6c9702203b37e2882",
-        album: "6aeb819701da59a31845952e"
-    },
-    {
-        rating: 5,
-        title: "A masterpiece",
-        review: "IGOR is a masterpiece from beginning to end. The storytelling and transitions make the album feel complete.",
-        user: "6aeda1e1c9702203b37e2883",
-        album: "6aeb819701da59a31845952e"
-    },
-    {
-        rating: 3,
-        title: "Good but not for everyone",
-        review: "The production is creative, but the heavy vocal effects are not always my thing. Still a good album.",
-        user: "6aeda1ebc9702203b37e2884",
-        album: "6aeb819701da59a31845952e"
-    },
-    {
-        rating: 4,
-        title: "Unique listening experience",
-        review: "I love the combination of funk, soul and alternative hip-hop. A very creative project.",
-        user: "6aeda1f6c9702203b37e2885",
-        album: "6aeb819701da59a31845952e"
-    }
-]);
+  await Artist.create({
+    name: "Radiohead"
+  });
 }
 
+async function makeAlbum() {
+  let artist = await Artist.findOne({ name: "The Strokes" });
+  if (!artist) {
+    artist = await Artist.create({ name: "The Strokes" });
+  }
+
+  let genre = await Genre.findOne({ name: "rock" });
+  if (!genre) {
+    genre = await Genre.create({ name: "rock" });
+  }
+
+  const newAlbum = await Album.create({
+    name: "The New Abnormal",
+    cover_img: "https://upload.wikimedia.org/wikipedia/en/f/f8/The_Strokes_-_The_New_Abnormal.png",
+    release_date: new Date("2020-04-10"),
+    genre: [genre._id],
+    artist_id: artist._id,
+    description: "The New Abnormal is the sixth studio album by The Strokes, released in 2020. The album explores themes of uncertainty, relationships, nostalgia, and modern life. It combines indie rock, alternative rock, and new wave influences, featuring atmospheric production and catchy melodies. Standout tracks include The Adults Are Talking, Selfless, Brooklyn Bridge to Chorus, Bad Decisions, and Ode to the Mets.",
+    songs: []
+  });
+
+  const tracks = [
+    { song_name: "The Adults Are Talking", track_number: 1, duration: "5:09" },
+    { song_name: "Selfless", track_number: 2, duration: "3:42" },
+    { song_name: "Brooklyn Bridge to Chorus", track_number: 3, duration: "3:55" },
+    { song_name: "Bad Decisions", track_number: 4, duration: "4:53" },
+    { song_name: "Eternal Summer", track_number: 5, duration: "6:15" },
+    { song_name: "At the Door", track_number: 6, duration: "5:10" },
+    { song_name: "Why Are Sundays So Depressing", track_number: 7, duration: "4:35" },
+    { song_name: "Not the Same Anymore", track_number: 8, duration: "5:37" },
+    { song_name: "Ode to the Mets", track_number: 9, duration: "5:51" }
+  ];
+
+  for (const track of tracks) {
+    const song = await Song.create({
+      ...track,
+      audio_url: ""
+    });
+
+    newAlbum.songs.push(song._id);
+  }
+
+  await newAlbum.save();
+  return newAlbum;
+}
 
 
 
@@ -97,6 +111,7 @@ await Review.insertMany([
 app.use('/auth',authController)
 app.use('/',indexController)
 app.use('/album',albumController)
+app.use("/profile",profileController)
 
 
 // connect to database and listen on Port 3000

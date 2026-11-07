@@ -41,7 +41,7 @@ body {
 
 .album-card {
     box-sizing: border-box;
-    width: calc(15% - 15px);
+    width: calc(18.5% - 15px);
     padding: 10px;
     background-color: #1C1B20;
     display: flex;
@@ -350,6 +350,45 @@ body:has(#review-form[style*="display"]:not([style*="display: none"]):not([style
 
 }
 
+#profile-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1c1b20;
+    padding: 3em;
+    width: 60%;
+    border-radius: 15px;
+    z-index: 1001;
+    display: none;
+}
+
+body:has(#profile-form[style*="display"]:not([style*="display: none"]):not([style*="display:none"]))::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+}
+
+#profile-form input,
+#profile-form select {
+    box-sizing: border-box;
+    padding: 8px;
+    height: 3em;
+    color: #F5F0F1;
+    background-color: #151518;
+    border: 1px solid #343239;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    width: 100%;
+
+}
+
+
+
 #edit-review-form {
     position: fixed;
     top: 50%;
@@ -378,6 +417,7 @@ body:has(#review-form[style*="display"]:not([style*="display: none"]):not([style
     width: 100%;
 
 }
+
 body:has(#edit-review-form[style*="display"]:not([style*="display: none"]):not([style*="display:none"]))::before {
     content: "";
     position: fixed;
@@ -460,7 +500,7 @@ nav {
 
 #review-button {
     width: 100%;
-    height: 2.5em;
+    height: 3em;
     font-size: large;
     border-radius: 15px;
     border-color: #028de0;
@@ -477,4 +517,25 @@ nav {
     border-color: #e06d02;
     color: white;
     background-color: #e06d02;
+}
+
+#profile-button {
+    width: 100%;
+    height: 3em;
+    font-size: large;
+    border-radius: 15px;
+    border-color: #028de0;
+    color: white;
+    background-color: #028de0;
+    margin-top: 1em;
+}
+
+#editProfileButton {
+    width: 100%;
+    height: 3em;
+    font-size: large;
+    border-radius: 15px;
+    border-color: #028de0;
+    color: white;
+    background-color: #028de0;
 }

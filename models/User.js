@@ -17,7 +17,14 @@ const userSchema = new mongoose.Schema({
   },
   pfp: {
     type: String,
-  }
+  },
+  bio: {
+    type: String
+  },
+  fav: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Album",
+  }],
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

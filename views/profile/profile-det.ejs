@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script defer src="/js/profile.js"></script>
+
+</head>
+
+<body>
+    <%- include('../partials/navbar') %>
+        <div id="profile-form">
+            <div style="display: flex; gap: 3em;">
+                <div>
+                    <img src="<%=user.pfp%>" alt="" style="width: 13em;">
+                </div>
+                <div style="width: 44em;">
+                    <form action="/profile/edit" method="POST">
+                        <input type="hidden" name="page_id" value="<%= user._id %>">
+                        <div style="padding-bottom: 0.2em;">
+                            <label for="username">username</label>
+                            <input type="text" name="username" id="username" value="<%=user.username%>">
+                        </div>
+                        <div style="padding-bottom: 0.2em;">
+                            <label for="pfp">profile picture</label>
+                            <input type="text" name="pfp" id="pfp" value="<%=user.pfp%>">
+                        </div>
+                        <div style="padding-bottom: 0.2em;">
+                            <label for="bio">bio</label>
+                            <textarea name="bio" id="bio" rows="10" style="width: 100%;"><%=user.bio%></textarea>
+                        </div>
+                        <button type="submit" id="profile-button">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="album-details-top">
+            <div id="album-details">
+                <div>
+                    <img src="<%=user.pfp%>" alt="" style="width: 10em; height: 10em; border-radius: 200px;">
+                </div>
+                <div>
+                    <h1>
+                        <%=user.username%>
+                    </h1>
+                </div>
+            </div>
+            <div style="width: 40%;">
+                <div style="display: flex;gap: 3em;justify-content: center;">
+                    <div style="text-align: center;">
+                        <h2>0</h2>
+                        <p>total reviews</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h2>
+                            0
+                        </h2>
+                        <p>Followers</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h2>0
+                        </h2>
+                        <p>Following</p>
+                    </div>
+                </div>
+                <button id="editProfileButton">Edit Review</button>
+            </div>
+        </div>
+
+        <div style="padding: 2em 2em 0em 6em;">
+            <div style="width: 100%; display: flex; justify-content: space-between;">
+                <h2>Favorite albums</h2>
+            </div>
+            <div
+                style="display: flex; width: 100% ; padding: 0.5em 0em 0.5em 0em; border-radius: 8px;flex-direction: row; gap: 2em;">
+                <% for (let oneAlbum of user.fav.slice(0, 5)) { %>
+
+                    <div class="album-card">
+                        <a href="/album/<%= oneAlbum._id %>" style="color: inherit; text-decoration: none;">
+                            <img src="<%= oneAlbum.cover_img %>" alt="<%= oneAlbum.name %>">
+
+                            <h2>
+                                <%= oneAlbum.name %>
+                            </h2>
+                            <p>
+                                <%for (let oneArtist of artist){%>
+                                    <%if (oneAlbum.artist_id.toString()===oneArtist._id.toString()){%>
+                                        <%=oneArtist.name%>
+                                            <%}%>
+                                                <%}%>
+                            </p>
+                            <%for (let oneReview of reviews){%>
+                                <%if (oneAlbum._id.toString()===oneReview.album._id.toString()){%>
+                                    <% const ratingValue=Number(oneReview.rating); %>
+                                        <% if (!Number.isNaN(ratingValue)) { %>
+                                            <p style="font-size: 1.5em; color: #ffc107;">
+                                                <%= '★' .repeat(ratingValue) %>
+                                            </p>
+                                            <% } else { %>
+                                                -
+                                                <% } %>
+                                                    <%}%>
+                                                        <%}%>
+                        </a>
+                    </div>
+
+                    <% } %>
+            </div>
+            <div>
+                <div>
+                    <h2>recent reviews</h2>
+                </div>
+            </div>
+        </div>
+
+
+</body>
+
+</html>

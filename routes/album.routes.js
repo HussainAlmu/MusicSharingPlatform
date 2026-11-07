@@ -4,6 +4,7 @@ const Album = require("../models/Album.js");
 const Genre = require("../models/Genre.js");
 const Artist = require("../models/Artist.js");
 const Song = require("../models/Song.js");
+const User = require("../models/User.js");
 const { render } = require("ejs");
 const Review = require("../models/Review.js");
 
@@ -59,8 +60,14 @@ router.get("/:id", async (req, res) => {
     const albumByArtist = await Album.find({ artist_id: album.artist_id._id });
     const review = req.session.user ? await Review.findOne({ album: album._id, user: req.session.user._id }).populate('user') : null;
     const allReviews = await Review.find({ album: album._id }).populate('user');
+    const user = await User.findById(req.session.user._id)
+    let isFav = false;
+    for (let oneFav of user.fav) {
+        if (oneFav.toString() === req.params.id) isFav = true;
+    }
+    console.log(user)
     let songs = album.songs
-    res.render('album/album-det.ejs', { album, songs, albumByArtist, review, allReviews })
+    res.render('album/album-det.ejs', { album, songs, albumByArtist, review, allReviews, isFav })
 })
 
 router.post("/rate", async (req, res) => {
@@ -79,12 +86,26 @@ router.post("/rate/edit", async (req, res) => {
         user: req.session.user._id,
         album: req.body.page_id,
     },
-    {
-        rating: req.body.rating,
-        title: req.body.title,
-        review: req.body.review_text,
-    }, { new: true });
+        {
+            rating: req.body.rating,
+            title: req.body.title,
+            review: req.body.review_text,
+        }, { new: true });
     res.redirect('/album');
+})
+
+router.post("/fav/:id", async (req, res) => {
+    await User.findByIdAndUpdate({ _id: req.session.user._id }, {
+        $addToSet: { fav: req.params.id }
+    });
+    res.redirect(`/album/${req.params.id}`);
+})
+
+router.post("/removeFav/:id", async (req, res) => {
+    await User.findByIdAndUpdate({ _id: req.session.user._id }, {
+        $pull: { fav: req.params.id }
+    });
+    res.redirect(`/album/${req.params.id}`);
 })
 
 module.exports = router;
