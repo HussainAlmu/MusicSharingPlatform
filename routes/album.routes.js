@@ -10,7 +10,20 @@ const Review = require("../models/Review.js");
 
 
 router.get('/', async (req, res) => {
-    const allAlbums = await Album.find().populate('artist_id');
+    console.log(req.query)
+    const filter = {}
+    const requestedPage = Number.parseInt(req.query.page, 10);
+    const page = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+    const skipValue = (page - 1) * 20
+    if (req.query.s) {
+        const search = { $regex: req.query.s, $options: 'i' };
+        const matchingArtists = await Artist.find({ name: search }).select('_id');
+        filter.$or = [
+            { name: search },
+            { artist_id: { $in: matchingArtists.map(artist => artist._id) } }
+        ];
+    }
+    const allAlbums = await Album.find(filter).populate('artist_id').limit(20).skip(skipValue);
     res.render('album/album.ejs', { album: allAlbums });
 });
 
@@ -106,6 +119,10 @@ router.post("/removeFav/:id", async (req, res) => {
         $pull: { fav: req.params.id }
     });
     res.redirect(`/album/${req.params.id}`);
+})
+
+router.post("/delete", async (req,res) => {
+    
 })
 
 module.exports = router;

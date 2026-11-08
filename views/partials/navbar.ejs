@@ -2,13 +2,18 @@
 
 
     <% if (user){ %>
-        <div style="display: flex; align-items: center;justify-content: space-between;background-color: #1c1b20; padding: 0em 5em 0em 5em ;" >
+        <div
+            style="display: flex; align-items: center;justify-content: space-between;background-color: #1c1b20; padding: 0em 5em 0em 5em ;">
             <div style="display: flex;">
                 <a href="/"><button class="nav-buttons" href="/">Homepage</button></a>
+                <a href="/album"><button class="nav-buttons" href="/">Albums</button></a>
+                <a href="/profile"><button class="nav-buttons" href="/">profiles</button></a>
+
                 <a href="/auth/sign-out"><button class="nav-buttons" href="/auth/sign-out">Logout</button></a>
             </div>
             <div>
-                <a href="/profile/<%= user._id %>"><img src="<%= user.pfp %>" alt="Profile avatar" style="width: 4em;border-radius: 100px;"></a>
+                <a href="/profile/<%= user._id %>"><img src="<%= user.pfp %>" alt="Profile avatar"
+                        style="width: 4em;border-radius: 100px;"></a>
             </div>
         </div>
 

@@ -23,7 +23,7 @@
                 </h2>
                 <p style="color: #ABA5AD; margin: 0; margin-bottom: 1em;"><%= reviews.filter(r => String(r.user) === String(oneUser._id)).length %> : reviews</p>
             </div>
-            <div style="display: flex;flex-direction: column;align-content: center; flex-direction: row;justify-content: center; gap: 1em;">
+            <div style="display: flex;flex-direction: column;align-content: center; flex-direction: row;justify-content: center; gap: 1em;width: 100%;">
                 <% const newestFavs=[...oneUser.fav].sort((a, b)=> Date.parse(b.createdAt) - Date.parse(a.createdAt));
                     %>
                     <% for (let i=0; i < Math.min(newestFavs.length, 3); i++) { const oneAlbum=newestFavs[i]; %>
