@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script defer src="/js/review.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script defer src="/js/rating-chart.js"></script>
 
 </head>
 
@@ -35,6 +39,9 @@
             <% const averageRating=allReviews.length ? allReviews.reduce((sum, oneReview)=> sum +
                 Number(oneReview.rating || 0), 0) / allReviews.length
                 : 0; %>
+                <% const ratingCounts=[1, 2, 3, 4, 5].map(rating=>
+                    allReviews.filter(oneReview => Number(oneReview.rating) === rating).length
+                    ); %>
                 <div style="width: 40%;">
                     <div style="display: flex;gap: 3em;justify-content: center;">
                         <div style="text-align: center;">
@@ -81,7 +88,7 @@
                 <div
                     style="display: flex; width: 100%; justify-content: space-between;background-color: #1c1b20 ; padding: 0.5em 0em 0.5em 0em; border-radius: 8px;flex-direction: column;">
                     <% for (let oneSongs of songs) { %>
-                        <div style="display: flex; justify-content: space-between; padding: 0.5em 0em 0.5em 0em;">
+                        <div id="track" style="display: flex; justify-content: space-between; padding: 0.5em 0em 0.5em 0em;">
 
                             <div style="display: flex; gap: 1em; flex-direction: row; align-items: center;">
                                 <div style="padding-left: 2em;">
@@ -116,8 +123,7 @@
                     <div style="width: 100%; background-color: #1c1b20; border-radius: 15px; ">
                         <div style="display: flex;gap: 1em;flex-direction: row;align-items: center; padding: 1em;">
                             <div>
-                                <img src="<%=review.user.pfp%>" alt=""
-                                    style="width: 6em; height: 6em;border-radius: 4em;">
+                               <a href="/profile/<%=review.user._id%>"> <img src="<%=review.user.pfp%>" alt="" style="width: 6em; height: 6em;border-radius: 4em;"></a>
                             </div>
                             <div>
                                 <p style="color: #ABA5AD;">reviewed by <span style="color: white;">
@@ -156,12 +162,13 @@
 
                                         <% } %>
                                             <div style="width: 100%; background-color: #1c1b20; border-radius: 15px; ">
-                                                <div
-                                                    style="display: flex;gap: 1em;flex-direction: row;align-items: center; padding: 1em;">
+                                                <div style="display: flex;gap: 1em;flex-direction: row;align-items: center; padding: 1em;">
                                                     <div>
-                                                        <img src="<%=oneReview.user.pfp%>" alt=""
-                                                            style="width: 6em; height: 6em;border-radius: 4em;">
+                                                        <a href="/profile/<%=oneReview.user._id%>">
+                                                        <img src="<%=oneReview.user.pfp%>" alt="" style="width: 6em; height: 6em;border-radius: 4em;">
+                                                        </a>
                                                     </div>
+                                                    
                                                     <div>
                                                         <p style="color: #ABA5AD;">reviewed by <span
                                                                 style="color: white;">
@@ -193,7 +200,9 @@
                                             </div>
                                             <% } %>
             </div>
+
             <div style="width: 30%; margin: 2em 6em 0em 0em; ">
+
                 <div style="background-color: #1c1b20 ; border-radius: 15px;">
                     <button class="album-det-buttons">add album to list</button>
                     <button class="album-det-buttons">edit album</button>
@@ -211,12 +220,37 @@
                             <%}%>
 
                 </div>
+                <div id="chart-div">
+                    <div class="rating-chart-summary">
+                        <div>
+                            <strong class="rating-chart-average"><%= averageRating.toFixed(1) %></strong>
+                            <span class="rating-chart-caption">Average rating</span>
+                        </div>
+                        <div class="rating-chart-total">
+                            <strong><%= allReviews.length %></strong>
+                            <span class="rating-chart-caption">reviews</span>
+                        </div>
+                    </div>
+                    <div class="rating-chart-plot">
+                        <canvas
+                            id="rating-chart"
+                            data-rating-counts="<%= JSON.stringify(ratingCounts) %>"
+                            role="img"
+                            aria-label="Rating distribution: <%= ratingCounts.map((count, index) => `${index + 1} stars: ${count}`).join(', ') %>"
+                        ></canvas>
+                    </div>
+                    <div class="rating-chart-labels" aria-hidden="true">
+                        <% for (let rating=1; rating <=5; rating++) { %>
+                            <span><%= rating %> <span class="rating-chart-star">☆</span></span>
+                        <% } %>
+                    </div>
+                </div>
                 <h3>more of <%= album.artist_id.name %>
                 </h3>
                 <% for (let oneAlbum of albumByArtist) { %>
                     <% if (oneAlbum._id.toString() !==album._id.toString()) { %>
                         <a href="/album/<%= oneAlbum._id %>" style="color: inherit; text-decoration: none;">
-                            <div
+                            <div id="anim-album"
                                 style="display:flex;gap:1em;align-items:center;background-color: #1c1b20; padding: 1em; border-radius: 15px;">
                                 <div>
 

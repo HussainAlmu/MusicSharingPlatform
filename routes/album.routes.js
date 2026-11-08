@@ -7,6 +7,7 @@ const Song = require("../models/Song.js");
 const User = require("../models/User.js");
 const { render } = require("ejs");
 const Review = require("../models/Review.js");
+const isSignedIn = require("../middleware/is-signed-in.js");
 
 
 router.get('/', async (req, res) => {
@@ -41,13 +42,13 @@ router.get('/', async (req, res) => {
     res.render('album/album.ejs', { album: allAlbums });
 });
 
-router.get('/create', async (req, res) => {
+router.get('/create', isSignedIn, async (req, res) => {
     let genres = await Genre.find();
     let artists = await Artist.find();
     res.render('album/create.ejs', { genres, artists });
 });
 
-router.post('/create', async (req, res) => {
+router.post('/create', isSignedIn, async (req, res) => {
     const newAlbum = await Album.create({
         name: req.body.name,
         cover_img: req.body.cover_img,
@@ -97,7 +98,7 @@ router.get("/:id", async (req, res) => {
     res.render('album/album-det.ejs', { album, songs, albumByArtist, review, allReviews, isFav })
 })
 
-router.post("/rate", async (req, res) => {
+router.post("/rate", isSignedIn, async (req, res) => {
     const review = await Review.create({
         rating: req.body.rating,
         title: req.body.title,
@@ -105,10 +106,10 @@ router.post("/rate", async (req, res) => {
         user: req.session.theUser._id,
         album: req.body.page_id,
     })
-    res.redirect('/album');
+    res.redirect(`/album/${req.body.page_id}?toast=created`);
 })
 
-router.post("/rate/edit", async (req, res) => {
+router.post("/rate/edit", isSignedIn, async (req, res) => {
     await Review.findOneAndUpdate({
         user: req.session.theUser._id,
         album: req.body.page_id,
@@ -118,24 +119,24 @@ router.post("/rate/edit", async (req, res) => {
             title: req.body.title,
             review: req.body.review_text,
         }, { new: true });
-    res.redirect('/album');
+    res.redirect(`/album/${req.body.page_id}?toast=updated`);
 })
 
-router.post("/fav/:id", async (req, res) => {
+router.post("/fav/:id", isSignedIn, async (req, res) => {
     await User.findByIdAndUpdate({ _id: req.session.theUser._id }, {
         $addToSet: { fav: req.params.id }
     });
     res.redirect(`/album/${req.params.id}`);
 })
 
-router.post("/removeFav/:id", async (req, res) => {
+router.post("/removeFav/:id", isSignedIn, async (req, res) => {
     await User.findByIdAndUpdate({ _id: req.session.theUser._id }, {
         $pull: { fav: req.params.id }
     });
     res.redirect(`/album/${req.params.id}`);
 })
 
-router.get("/delete/:id", async (req,res) => {
+router.get("/delete/:id", isSignedIn, async (req, res) => {
     await Album.findByIdAndDelete(req.params.id);
     res.redirect('/album');
 })
