@@ -15,7 +15,12 @@ const songSchema = new mongoose.Schema({
     },
     audio_url: {
         type: String
-    },
+    }, 
+    itunes_track_id: {
+        type: Number,
+        unique: true,
+        sparse: true
+    }
 });
 
 module.exports = mongoose.model('Song', songSchema);

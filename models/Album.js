@@ -30,6 +30,11 @@ const albumSchema = new mongoose.Schema({
     },
     description: {
         type: String
+    },
+    itunes_id: {
+        type: Number,
+        unique: true,
+        sparse: true
     }
 }, { timestamps: true });
 
