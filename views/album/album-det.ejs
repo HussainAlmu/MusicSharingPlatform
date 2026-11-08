@@ -197,7 +197,9 @@
                 <div style="background-color: #1c1b20 ; border-radius: 15px;">
                     <button class="album-det-buttons">add album to list</button>
                     <button class="album-det-buttons">edit album</button>
-                    <button class="album-det-buttons">delete album</button>
+                    <form action="/album/delete/<%= album._id %>">
+                        <button class="album-det-buttons">delete album</button>
+                    </form>
                     <% if (!isFav) { %>
                         <form action="/album/fav/<%= album._id %>" method="POST" style="display: inline;">
                             <button type="submit" class="album-det-buttons">add to favorite</button>

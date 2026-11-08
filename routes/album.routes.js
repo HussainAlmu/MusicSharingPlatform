@@ -23,7 +23,21 @@ router.get('/', async (req, res) => {
             { artist_id: { $in: matchingArtists.map(artist => artist._id) } }
         ];
     }
-    const allAlbums = await Album.find(filter).populate('artist_id').limit(20).skip(skipValue);
+    const matchingAlbums = await Album.find(filter);
+    const reviewCounts = await Review.aggregate([
+        { $match: { album: { $in: matchingAlbums.map(album => album._id) } } },
+        { $group: { _id: '$album', count: { $sum: 1 } } }
+    ]);
+    const reviewCountByAlbum = new Map(
+        reviewCounts.map(({ _id, count }) => [_id.toString(), count])
+    );
+    const allAlbums = matchingAlbums
+        .sort((a, b) =>
+            (reviewCountByAlbum.get(b._id.toString()) || 0) -
+            (reviewCountByAlbum.get(a._id.toString()) || 0)
+        )
+        .slice(skipValue, skipValue + 20);
+    await Album.populate(allAlbums, { path: 'artist_id' });
     res.render('album/album.ejs', { album: allAlbums });
 });
 
@@ -121,8 +135,9 @@ router.post("/removeFav/:id", async (req, res) => {
     res.redirect(`/album/${req.params.id}`);
 })
 
-router.post("/delete", async (req,res) => {
-    
+router.get("/delete/:id", async (req,res) => {
+    await Album.findByIdAndDelete(req.params.id);
+    res.redirect('/album');
 })
 
 module.exports = router;
