@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script defer src="/js/profile.js"></script>
+</head>
+
+<body>
+    <div id="profile-form">
+        <div style="display: flex; gap: 3em;">
+            <div>
+                <img src="<%=profileUser.pfp%>" alt="" style="width: 13em;">
+            </div>
+            <div style="width: 44em;">
+                <form action="/profile/edit" method="POST">
+                    <input type="hidden" name="page_id" value="<%= profileUser._id %>">
+                    <div style="padding-bottom: 0.2em;">
+                        <label for="username">username</label>
+                        <input type="text" name="username" id="username" value="<%=profileUser.username%>">
+                    </div>
+                    <div style="padding-bottom: 0.2em;">
+                        <label for="pfp">profile picture</label>
+                        <input type="text" name="pfp" id="pfp" value="<%=profileUser.pfp%>">
+                    </div>
+                    <div style="padding-bottom: 0.2em;">
+                        <label for="bio">bio</label>
+                        <textarea name="bio" id="bio" rows="10" style="width: 100%;"><%=profileUser.bio%></textarea>
+                    </div>
+                    <button type="submit" id="profile-button">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="album-details-top">
+        <div id="album-details">
+            <div>
+                <img src="<%=profileUser.pfp%>" alt="" style="width: 10em; height: 10em; border-radius: 200px;">
+            </div>
+            <div>
+                <h1>
+                    <%=profileUser.username%>
+                </h1>
+            </div>
+        </div>
+        <div style="width: 40%;">
+            <div style="display: flex;gap: 3em;justify-content: center;">
+                <div style="text-align: center;">
+                    <h2>
+                        <%= reviews.length %>
+                    </h2>
+                    <p>total reviews</p>
+                </div>
+                <div style="text-align: center;">
+                    <h2>
+                        0
+                    </h2>
+                    <p>Followers</p>
+                </div>
+                <div style="text-align: center;">
+                    <h2>0
+                    </h2>
+                    <p>Following</p>
+                </div>
+            </div>
+            <button id="editProfileButton">Edit Review</button>
+        </div>
+    </div>
+    <div style="padding: 3em;">
+        <h1>reviews</h1>
+        <div style="width: 100%;">
+            <% const recentReviews=reviews .filter(oneReview=> oneReview.album).slice().sort((a, b) => new
+                Date(b.createdAt) - new Date(a.createdAt)); %>
+                <% if (recentReviews.length===0) { %>
+                    <p>No reviews yet.</p>
+                    <% } else { %>
+                        <% for (let oneReview of recentReviews) { %>
+                            <div
+                                style="background-color: #1C1B20; padding: 1em;padding: 1em; display: flex; gap: 1em; border-radius: 15px; margin-bottom: 1em;">
+                                <div>
+                                    <a href="/album/<%=oneReview.album._id%>"><img src="<%=oneReview.album.cover_img%>"
+                                            alt="" style="width: 10em; height: 10em; border-radius: 15px;"></a>
+                                </div>
+                                <div>
+                                    <h3>
+                                        <%=oneReview.album.name%>
+                                    </h3>
+    
+                                    <%for (let oneArtist of artist){%>
+                                        <%if (oneReview.album.artist_id.toString()===oneArtist._id.toString()){%>
+                                            <p style="color: #aba5ad;">
+                                                <%=oneArtist.name%> . <%= new
+                                                        Date(oneReview.album.release_date).getFullYear() %>
+                                                        <span style="color: #ffc107;">
+                                                            <%= '★' .repeat(Math.max(0, Math.floor(Number(oneReview.rating)
+                                                                || 0))) %>
+                                                        </span>
+                                            </p>
+                                            <%}%>
+                                                <%}%>
+                                                    <p>
+                                                        <%=oneReview.review%>
+                                                    </p>
+                                </div>
+                            </div>
+                            <%}%>
+                                <% } %>
+        </div>
+
+    </div>
+</body>
+
+</html>

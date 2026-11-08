@@ -18,6 +18,22 @@ router.get("/:id", async (req, res) => {
     res.render('profile/profile-det.ejs',{ profileUser, artist, reviews })
 })
 
+router.get("/:id/reviews", async (req, res) => {
+    const profileUser = await User.findById(req.params.id).populate("fav")
+    const artist = await Artist.find()
+    const reviews = await Review.find({ user: req.params.id }).populate("album")
+    console.log(reviews)
+    res.render('profile/profile-reviews.ejs',{ profileUser, artist, reviews })
+})
+
+router.get("/:id/fav", async (req, res) => {
+    const profileUser = await User.findById(req.params.id).populate("fav")
+    const artist = await Artist.find()
+    const reviews = await Review.find({ user: req.params.id }).populate("album")
+    console.log(reviews)
+    res.render('profile/profile-fav.ejs',{ profileUser, artist, reviews })
+})
+
 router.post("/edit", async (req, res) => {
     const userInDatabase = await User.findOneAndUpdate(
         { _id: req.session.theUser._id },
