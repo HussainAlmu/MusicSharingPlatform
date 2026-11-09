@@ -604,8 +604,17 @@ nav {
     background-color: #028de0;
 }
 
-#searchBar {
-    width: 40%;
+.album-search-form {
+    display: flex;
+    gap: 0.75em;
+    width: min(70%, 900px);
+    max-width: none;
+    margin: 2em auto 0;
+}
+
+.album-search-form input {
+    flex: 1;
+    min-width: 0;
     height: 3.25rem;
     border: none;
     border-radius: 999px;
@@ -613,19 +622,123 @@ nav {
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
     color: #f3f3f3;
     font-size: 1.05rem;
-    padding: 0 3.4rem 0 1.3rem;
+    padding: 0 1.3rem;
     box-sizing: border-box;
-    margin-top: 2em;
 }
 
-#searchBar::placeholder {
+.album-search-form input::placeholder {
     color: rgba(255, 255, 255, 0.72);
     opacity: 1;
 }
 
-#searchBar:focus {
+.album-search-form input:focus {
     outline: none;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 0 0 1px rgba(2, 141, 224, 0.3);
+}
+
+@media (max-width: 600px) {
+    .album-search-form {
+        flex-direction: column;
+        width: calc(100% - 2em);
+    }
+}
+
+.admin-dashboard {
+    width: min(100% - 3rem, 1100px);
+    margin: 3rem auto;
+}
+
+.admin-heading {
+    margin-bottom: 1.5rem;
+}
+
+.admin-heading h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.admin-eyebrow {
+    margin: 0 0 0.5rem;
+    color: #ABA5AD;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.admin-stat,
+.admin-panel {
+    padding: 1.25rem;
+    background-color: #1C1B20;
+    border-radius: 15px;
+}
+
+.admin-stat p {
+    margin: 0 0 0.75rem;
+    color: #ABA5AD;
+}
+
+.admin-stat strong {
+    font-size: 1.75rem;
+}
+
+.admin-panel h2 {
+    margin: 0 0 1rem;
+    font-size: 1.15rem;
+}
+
+.admin-table-wrap {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 0.85rem 0.65rem;
+    border-bottom: 1px solid #343239;
+}
+
+.admin-table th {
+    color: #ABA5AD;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.admin-role {
+    padding: 0.25rem 0.6rem;
+    background-color: #343239;
+    border-radius: 999px;
+    font-size: 0.8rem;
+}
+
+.admin-empty {
+    margin-bottom: 0;
+    color: #ABA5AD;
+}
+
+@media (max-width: 700px) {
+    .admin-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-dashboard {
+        width: calc(100% - 2rem);
+        margin: 2rem auto;
+    }
 }
 
 .serchButtons {

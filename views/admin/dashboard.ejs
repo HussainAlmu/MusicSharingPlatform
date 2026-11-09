@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('../partials/navbar') %>
+
+    <main class="admin-dashboard">
+        <header class="admin-heading animate__animated animate__fadeInDown">
+            <div>
+                <p class="admin-eyebrow">OVERVIEW</p>
+                <h1>Admin dashboard</h1>
+            </div>
+        </header>
+
+        <section class="admin-stats animate__animated animate__fadeInUp" aria-label="Site totals">
+            <% for (const stat of stats) { %>
+                <article class="admin-stat">
+                    <p><%= stat.label %></p>
+                    <strong><%= stat.value %></strong>
+                </article>
+            <% } %>
+        </section>
+
+        <section class="admin-panel animate__animated animate__fadeInUp" style="--animate-delay: 0.15s">
+            <h2>Recent users</h2>
+            <% if (recentUsers.length) { %>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (const account of recentUsers) { %>
+                                <tr>
+                                    <td><%= account.username %></td>
+                                    <td><%= account.email %></td>
+                                    <td><span class="admin-role"><%= account.role || "user" %></span></td>
+                                    <td><%= account.createdAt.toLocaleDateString() %></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <p class="admin-empty">No users yet.</p>
+            <% } %>
+        </section>
+    </main>
+</body>
+
+</html>

@@ -8,21 +8,29 @@ const User = require("../models/User.js");
 const { render } = require("ejs");
 const Review = require("../models/Review.js");
 const isSignedIn = require("../middleware/is-signed-in.js");
+const isAdmin = require("../middleware/is-admin.js");
 
 
 router.get('/', async (req, res) => {
-    console.log(req.query)
     const filter = {}
     const requestedPage = Number.parseInt(req.query.page, 10);
     const page = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
     const skipValue = (page - 1) * 20
     if (req.query.s) {
-        const search = { $regex: req.query.s, $options: 'i' };
+        const searchValue = String(req.query.s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const search = { $regex: searchValue, $options: 'i' };
         const matchingArtists = await Artist.find({ name: search }).select('_id');
         filter.$or = [
             { name: search },
             { artist_id: { $in: matchingArtists.map(artist => artist._id) } }
         ];
+    }
+    if (req.query.artist) {
+        const artistSearch = String(req.query.artist).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const matchingArtists = await Artist.find({
+            name: { $regex: artistSearch, $options: 'i' }
+        }).select('_id');
+        filter.artist_id = { $in: matchingArtists.map(artist => artist._id) };
     }
     const matchingAlbums = await Album.find(filter);
     const reviewCounts = await Review.aggregate([
@@ -39,16 +47,22 @@ router.get('/', async (req, res) => {
         )
         .slice(skipValue, skipValue + 20);
     await Album.populate(allAlbums, { path: 'artist_id' });
-    res.render('album/album.ejs', { album: allAlbums });
+    const artists = await Artist.find().sort({ name: 1 }).select('name');
+    res.render('album/album.ejs', {
+        album: allAlbums,
+        artists,
+        searchTerm: req.query.s || '',
+        artistTerm: req.query.artist || ''
+    });
 });
 
-router.get('/create', isSignedIn, async (req, res) => {
+router.get('/create', isSignedIn, isAdmin, async (req, res) => {
     let genres = await Genre.find();
     let artists = await Artist.find();
     res.render('album/create.ejs', { genres, artists });
 });
 
-router.post('/create', isSignedIn, async (req, res) => {
+router.post('/create', isSignedIn, isAdmin, async (req, res) => {
     const newAlbum = await Album.create({
         name: req.body.name,
         cover_img: req.body.cover_img,
@@ -88,14 +102,14 @@ router.get("/:id", async (req, res) => {
     const albumByArtist = await Album.find({ artist_id: album.artist_id._id });
     const review = req.session.theUser ? await Review.findOne({ album: album._id, user: req.session.theUser._id }).populate('user') : null;
     const allReviews = await Review.find({ album: album._id }).populate('user');
-    const user = await User.findById(req.session.theUser._id)
-    let isFav = false;
-    for (let oneFav of user.fav) {
-        if (oneFav.toString() === req.params.id) isFav = true;
-    }
-    console.log(user)
+    const user = req.session.theUser
+        ? await User.findById(req.session.theUser._id).select('fav role')
+        : null;
+    const isFav = user
+        ? user.fav.some(oneFav => oneFav.toString() === req.params.id)
+        : false;
     let songs = album.songs
-    res.render('album/album-det.ejs', { album, songs, albumByArtist, review, allReviews, isFav })
+    res.render('album/album-det.ejs', {album,songs,albumByArtist,review,allReviews,isFav,isAdmin: user?.role === "admin"})
 })
 
 router.post("/rate", isSignedIn, async (req, res) => {
@@ -136,7 +150,7 @@ router.post("/removeFav/:id", isSignedIn, async (req, res) => {
     res.redirect(`/album/${req.params.id}?toast=unfavorited`);
 })
 
-router.get("/delete/:id", isSignedIn, async (req, res) => {
+router.get("/delete/:id", isSignedIn, isAdmin, async (req, res) => {
     await Album.findByIdAndDelete(req.params.id);
     res.redirect('/album');
 })

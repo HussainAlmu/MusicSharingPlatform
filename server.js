@@ -21,6 +21,7 @@ const authController = require("./routes/auth.routes.js");
 const indexController = require("./routes/index.routes.js");
 const albumController = require("./routes/album.routes.js");
 const profileController = require("./routes/profile.routes.js");
+const adminController = require("./routes/admin.routes.js");
 const Album = require("./models/Album.js");
 const Song = require("./models/Song.js");
 
@@ -112,6 +113,7 @@ app.use('/auth',authController)
 app.use('/',indexController)
 app.use('/album',albumController)
 app.use("/profile",profileController)
+app.use("/admin", adminController)
 
 
 // connect to database and listen on Port 3000

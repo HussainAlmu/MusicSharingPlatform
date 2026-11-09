@@ -13,11 +13,17 @@
 
 <body>
     <%- include('../partials/navbar') %>
-        <div style="display: flex;justify-content: center;">
-            <form action="/album" method="GET" style="width: 50%;display: flex;justify-content: center;">
-                <input type="text" id="searchBar" name="s" placeholder="Search for an Album..." style="width: 100%;">
-            </form>
-        </div>
+        <form action="/album" method="GET" class="album-search-form" id="albumSearchForm">
+                <input type="search" id="searchBar" name="s" value="<%= searchTerm %>"
+                    placeholder="Search albums...">
+                <input type="search" id="artistSearch" name="artist" value="<%= artistTerm %>"
+                    list="artistOptions" placeholder="Search artists..." autocomplete="off">
+                <datalist id="artistOptions">
+                    <% for (let oneArtist of artists) { %>
+                        <option value="<%= oneArtist.name %>"></option>
+                    <% } %>
+                </datalist>
+        </form>
 
         <div style="display: flex;margin: 1em;justify-content: center;gap: 2em;">
             <button class="serchButtons " type="button" id="next">next</button>

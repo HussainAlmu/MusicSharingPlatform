@@ -24,7 +24,12 @@ router.post("/sign-up", async (req, res) => {
 
   // validation logic
 
-  const user = await User.create(req.body);
+  await User.create({
+    username: req.body.username,
+    email: req.body.email,
+    password: hashedPassword,
+    pfp: req.body.pfp
+  });
   res.redirect("/auth/sign-in");
 });
 
@@ -60,6 +65,7 @@ router.post("/sign-in", async (req, res) => {
     username: userInDatabase.username,
     _id: userInDatabase._id,
     pfp: userInDatabase.pfp,
+    role: userInDatabase.role,
   };
 
   res.redirect("/");

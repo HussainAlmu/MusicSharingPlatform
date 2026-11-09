@@ -17,9 +17,15 @@ const userSchema = new mongoose.Schema({
   },
   pfp: {
     type: String,
+    default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREf6rKt7wcFQR36zRq_MESNDmQq_5PjkKDBKlH0HiJi7NJzEurPn4TNGM&s=10",
   },
   bio: {
     type: String
+  },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user"
   },
   fav: [{
     type: mongoose.Schema.Types.ObjectId,

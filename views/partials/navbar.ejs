@@ -8,6 +8,9 @@
                 <a href="/"><button class="nav-buttons" href="/">Homepage</button></a>
                 <a href="/album"><button class="nav-buttons" href="/">Albums</button></a>
                 <a href="/profile"><button class="nav-buttons" href="/">profiles</button></a>
+                <% if (user.role === "admin") { %>
+                    <a href="/admin"><button class="nav-buttons">Admin</button></a>
+                <% } %>
 
                 <a href="/auth/sign-out"><button class="nav-buttons" href="/auth/sign-out">Logout</button></a>
             </div>
