@@ -25,9 +25,23 @@ router.get('/', async (req, res) => {
         )
 
 
-    const users = await User.find().populate("fav")
+ let friendReviews = []
+    if (req.session.theUser) {
+        const currentUser = await User.findById(req.session.theUser._id).select("following")
+        const followingIds = currentUser?.following ?? []
+        if (followingIds.length > 0) {
+            friendReviews = (await Review.find({ user: { $in: followingIds } })
+                .populate("user")
+                .populate("album")
+                .sort({ createdAt: -1 }))
+                .filter(review => review.album)
+        }
+    }
     
-    
-    res.render('homepage.ejs',{allAlbums})
+    const artist = await Artist.find()
+
+        const users = await User.find().populate("fav")
+        const reviews = await Review.find()
+    res.render('homepage.ejs',{allAlbums , friendReviews , artist, users, reviews})
 })
 module.exports = router;
