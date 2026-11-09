@@ -1,15 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
     <%- include('./partials/navbar') %>
 
-    <h1>Welcome to my Website</h1>
-    
+        <div style="margin: 3em;">
+            <h2>most popular this month</h2>
+            <div style="display: flex; gap: 2em;">
+                <% for (let index=0; index < 5; index++) { %>
+                    <div class="album-card">
+                        <a href="/album/<%= allAlbums[index]._id %>"><img src="<%= allAlbums[index].cover_img %>"
+                                alt="<%= allAlbums[index].name %>">
+                        </a>
+                        <h2 class="album-name">
+                            <%= allAlbums[index].name %>
+                        </h2>
+                        <p class="album-artist">
+                            <%= allAlbums[index].artist_id.name %>
+                        </p>
+                    </div>
+                    <% } %>
+            </div>
+            <h2>Reviewed by Friends</h2>
+            <div>
+                
+            </div>
+        </div>
+
 </body>
+
 </html>

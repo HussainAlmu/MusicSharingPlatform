@@ -126,14 +126,14 @@ router.post("/fav/:id", isSignedIn, async (req, res) => {
     await User.findByIdAndUpdate({ _id: req.session.theUser._id }, {
         $addToSet: { fav: req.params.id }
     });
-    res.redirect(`/album/${req.params.id}`);
+    res.redirect(`/album/${req.params.id}?toast=favorited`);
 })
 
 router.post("/removeFav/:id", isSignedIn, async (req, res) => {
     await User.findByIdAndUpdate({ _id: req.session.theUser._id }, {
         $pull: { fav: req.params.id }
     });
-    res.redirect(`/album/${req.params.id}`);
+    res.redirect(`/album/${req.params.id}?toast=unfavorited`);
 })
 
 router.get("/delete/:id", isSignedIn, async (req, res) => {

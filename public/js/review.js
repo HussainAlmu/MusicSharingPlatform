@@ -37,4 +37,14 @@ if (reviewToast === "updated") {
 		text: "Review added successfully",
 		duration: 3000
 	}).showToast()
+} else if (reviewToast === "favorited") {
+	Toastify({
+		text: "Album added to favorites",
+		duration: 3000
+	}).showToast()
+} else if (reviewToast === "unfavorited") {
+	Toastify({
+		text: "Album removed from favorites",
+		duration: 3000
+	}).showToast()
 }
