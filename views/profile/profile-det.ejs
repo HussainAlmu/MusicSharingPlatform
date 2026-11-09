@@ -28,7 +28,7 @@
                             <img src="<%=profileUser.pfp%>" alt="" style="width: 13em;">
                         </div>
                         <div style="width: 44em;">
-                            <form action="/profile/edit" method="POST">
+                            <form action="/profile/edit" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="page_id" value="<%= profileUser._id %>">
                                 <div style="padding-bottom: 0.2em;">
                                     <label for="username">username</label>
@@ -36,7 +36,7 @@
                                 </div>
                                 <div style="padding-bottom: 0.2em;">
                                     <label for="pfp">profile picture</label>
-                                    <input type="text" name="pfp" id="pfp" value="<%=profileUser.pfp%>">
+                                    <input type="file" name="photo" id="photo">
                                 </div>
                                 <div style="padding-bottom: 0.2em;">
                                     <label for="bio">bio</label>
@@ -75,23 +75,24 @@
                                 <p>Followers</p>
                             </div>
                             <div style="text-align: center;">
-                                <h2><%= profileUser.following.length %>
+                                <h2>
+                                    <%= profileUser.following.length %>
                                 </h2>
                                 <p>Following</p>
                             </div>
                         </div>
-                        
-                        <% if (user && user._id.toString() === profileUser._id.toString()) { %>
+
+                        <% if (user && user._id.toString()===profileUser._id.toString()) { %>
                             <button id="editProfileButton" class="profile-action-button">Edit Profile</button>
-                        <% } else { %>
-                            <form action="/profile/follow/<%=profileUser._id%>" method="post">
-                                <% if (isFollowing) { %>
-                                    <button id="unfollowButton" class="profile-action-button">Unfollow</button>
-                                <% } else { %>
-                                    <button id="followButton" class="profile-action-button">Follow</button>
+                            <% } else { %>
+                                <form action="/profile/follow/<%=profileUser._id%>" method="post">
+                                    <% if (isFollowing) { %>
+                                        <button id="unfollowButton" class="profile-action-button">Unfollow</button>
+                                        <% } else { %>
+                                            <button id="followButton" class="profile-action-button">Follow</button>
+                                            <% } %>
+                                </form>
                                 <% } %>
-                            </form>
-                        <% } %>
                     </div>
                 </div>
 
@@ -148,14 +149,16 @@
                         </div>
                         <div style="display: flex; flex-direction: row;">
                             <div style="width: 60%;">
-                                <% const recentReviews=reviews .filter(oneReview=> oneReview.album).slice().sort((a, b) =>
-                                    new
-                                    Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3); %>
+                                <% const recentReviews=reviews .filter(oneReview=> oneReview.album)
+                                    .slice()
+                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                                    .slice(0, 3); %>
                                     <% if (recentReviews.length===0) { %>
                                         <p>No reviews yet.</p>
                                         <% } else { %>
                                             <% for (let oneReview of recentReviews) { %>
-                                                <div class="anim" style="background-color: #1C1B20; padding: 1em;padding: 1em; display: flex; gap: 1em; border-radius: 15px; margin-bottom: 1em;">
+                                                <div class="anim"
+                                                    style="background-color: #1C1B20; padding: 1em;padding: 1em; display: flex; gap: 1em; border-radius: 15px; margin-bottom: 1em;">
                                                     <div>
                                                         <a href="/album/<%=oneReview.album._id%>"><img
                                                                 src="<%=oneReview.album.cover_img%>" alt=""
@@ -165,7 +168,7 @@
                                                         <h3>
                                                             <%=oneReview.album.name%>
                                                         </h3>
-    
+
                                                         <%for (let oneArtist of artist){%>
                                                             <%if
                                                                 (oneReview.album.artist_id.toString()===oneArtist._id.toString()){%>
@@ -175,8 +178,8 @@
                                                                             %>
                                                                             <span style="color: #ffc107;">
                                                                                 <%= '★' .repeat(Math.max(0,
-                                                                                    Math.floor(Number(oneReview.rating) ||
-                                                                                    0))) %>
+                                                                                    Math.floor(Number(oneReview.rating)
+                                                                                    || 0))) %>
                                                                             </span>
                                                                 </p>
                                                                 <%}%>
@@ -189,9 +192,9 @@
                                                 <%}%>
                                                     <% } %>
                             </div>
-                           
+
                             <div class="profile-rating-chart">
-                                 <h1>Rating Distribution</h1>
+                                <h1>Rating Distribution</h1>
                                 <div id="chart-div">
                                     <div class="rating-chart-summary">
                                         <div>
@@ -208,8 +211,8 @@
                                         </div>
                                     </div>
                                     <div class="rating-chart-plot">
-                                        <canvas id="rating-chart" data-rating-counts="<%= JSON.stringify(ratingCounts) %>"
-                                            role="img"
+                                        <canvas id="rating-chart"
+                                            data-rating-counts="<%= JSON.stringify(ratingCounts) %>" role="img"
                                             aria-label="Rating distribution: <%= ratingCounts.map((count, index) => `${index + 1} stars: ${count}`).join(', ') %>"></canvas>
                                     </div>
                                     <div class="rating-chart-labels" aria-hidden="true">

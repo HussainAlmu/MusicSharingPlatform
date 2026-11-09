@@ -5,10 +5,12 @@ const Artist = require("../models/Artist.js");
 const Review = require("../models/Review.js");
 const isSignedIn = require("../middleware/is-signed-in.js");
 
+const { uploadProductPhoto, discardUploadedPhoto } = require("../middleware/uplode-photo.js");
+
 router.get("/", async (req, res) => {
     const users = await User.find().populate("fav")
     const reviews = await Review.find()
-    res.render('profile/profile.ejs',{users , reviews})
+    res.render('profile/profile.ejs', { users, reviews })
 })
 
 router.get("/:id", async (req, res) => {
@@ -21,7 +23,7 @@ router.get("/:id", async (req, res) => {
         : null
     const isFollowing = currentUser?.following.some(id => id.equals(profileUser._id)) ?? false
     console.log(reviews)
-    res.render('profile/profile-det.ejs',{ profileUser, artist, reviews, followers: followers.length, isFollowing })
+    res.render('profile/profile-det.ejs', { profileUser, artist, reviews, followers: followers.length, isFollowing })
 })
 
 router.get("/:id/reviews", async (req, res) => {
@@ -29,7 +31,7 @@ router.get("/:id/reviews", async (req, res) => {
     const artist = await Artist.find()
     const reviews = await Review.find({ user: req.params.id }).populate("album")
     console.log(reviews)
-    res.render('profile/profile-reviews.ejs',{ profileUser, artist, reviews })
+    res.render('profile/profile-reviews.ejs', { profileUser, artist, reviews })
 })
 
 router.get("/:id/fav", async (req, res) => {
@@ -37,17 +39,20 @@ router.get("/:id/fav", async (req, res) => {
     const artist = await Artist.find()
     const reviews = await Review.find({ user: req.params.id }).populate("album")
     console.log(reviews)
-    res.render('profile/profile-fav.ejs',{ profileUser, artist, reviews })
+    res.render('profile/profile-fav.ejs', { profileUser, artist, reviews })
 })
 
-router.post("/edit", isSignedIn, async (req, res) => {
+router.post("/edit", uploadProductPhoto, isSignedIn, async (req, res) => {
+    console.log(req.file)
     const userInDatabase = await User.findByIdAndUpdate(
         req.session.theUser._id,
-        { $set: {
-            username: req.body.username,
-            pfp: req.body.pfp,
-            bio: req.body.bio
-        } },
+        {
+            $set: {
+                username: req.body.username,
+                pfp: req.file.path,
+                bio: req.body.bio
+            }
+        },
         { new: true, runValidators: true }
     );
 
@@ -62,7 +67,7 @@ router.post("/edit", isSignedIn, async (req, res) => {
     res.redirect("/profile/" + userInDatabase._id + "?updated=true");
 })
 
-router.post("/follow/:id", isSignedIn, async (req, res)=>{
+router.post("/follow/:id", isSignedIn, async (req, res) => {
     const currentUser = await User.findById(req.session.theUser._id).select("following")
     const isFollowing = currentUser.following.some(id => id.equals(req.params.id))
     await User.findByIdAndUpdate(req.session.theUser._id, isFollowing
